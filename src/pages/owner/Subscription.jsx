@@ -228,7 +228,7 @@ const Subscription = () => {
                                         </div>
                                         <div className="flex justify-between items-center bg-muted/20 p-4 rounded-2xl border border-border/30 group hover:border-primary/30 transition-colors">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Monthly Billed</span>
-                                            <span className="text-sm font-bold text-foreground">{isPremium ? '$25.00' : '$0.00'}</span>
+                                            <span className="text-sm font-bold text-foreground">{isPremium ? '₹2,499' : '₹0'}</span>
                                         </div>
                                     </div>
 

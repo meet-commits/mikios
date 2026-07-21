@@ -70,7 +70,7 @@ const PromoCarousel = ({ items }) => {
                     transition={{ delay: 0.5 }}
                     className="flex items-center gap-3 sm:gap-4 mt-1 sm:mt-2"
                 >
-                    <span className="text-2xl sm:text-3xl font-bold text-primary drop-shadow-md">${featuredItem.price}</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-primary drop-shadow-md">₹{featuredItem.price}</span>
                     <button
                         onClick={() => addToCart(featuredItem, 1)}
                         className="bg-white text-black hover:bg-gray-100 active:bg-gray-200 font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl flex items-center gap-2 transition-all active:scale-95 shadow-lg text-sm sm:text-base min-h-[44px]"

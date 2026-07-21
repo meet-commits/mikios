@@ -273,7 +273,7 @@ const MenuManagement = () => {
                                             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
                                                 <div className="flex justify-between items-end gap-2">
                                                     <h3 className="font-black text-xl text-white leading-tight tracking-tight drop-shadow-lg truncate">{item.name}</h3>
-                                                    <span className="text-primary-foreground bg-primary px-3 py-1 rounded-xl font-black text-xs shadow-xl ring-2 ring-primary/20 flex-shrink-0">${parseFloat(item.price).toFixed(2)}</span>
+                                                    <span className="text-primary-foreground bg-primary px-3 py-1 rounded-xl font-black text-xs shadow-xl ring-2 ring-primary/20 flex-shrink-0">₹{parseFloat(item.price).toFixed(2)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -422,7 +422,7 @@ const MenuManagement = () => {
                                                 <div className="space-y-3">
                                                     <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Listed Price</label>
                                                     <div className="relative">
-                                                        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground font-black text-lg">$</span>
+                                                        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground font-black text-lg">₹</span>
                                                         <input type="number" name="price" defaultValue={editingItem?.price} required min="0" step="0.01" className="input w-full pl-12 bg-muted/40 border-2 border-transparent focus:border-primary/50 transition-all font-bold py-4 text-lg rounded-2xl" placeholder="0.00" />
                                                     </div>
                                                 </div>

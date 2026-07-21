@@ -9,17 +9,17 @@ const Terms = () => {
                 <div className="space-y-6 text-muted-foreground leading-relaxed">
                     <section>
                         <h2 className="text-xl font-semibold text-foreground mb-3">1. Acceptance of Terms</h2>
-                        <p>By accessing and using ChefOS, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.</p>
+                        <p>By accessing and using mikiOS, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.</p>
                     </section>
 
                     <section>
                         <h2 className="text-xl font-semibold text-foreground mb-3">2. Description of Service</h2>
-                        <p>ChefOS provides a restaurant management platform including digital menus, order tracking, and kitchen management systems.</p>
+                        <p>mikiOS provides a restaurant management platform including digital menus, order tracking, and kitchen management systems.</p>
                     </section>
 
                     <section>
                         <h2 className="text-xl font-semibold text-foreground mb-3">3. Subscription and Billing</h2>
-                        <p>Our Premium plan is billed monthly at $25 USD (or local equivalent). Payments are processed securely via our billing partners or manual invoice. You can cancel your subscription at any time.</p>
+                        <p>Our Premium plan is billed monthly at ₹2,499 INR (or local equivalent). Payments are processed securely via our billing partners or manual invoice. You can cancel your subscription at any time.</p>
                     </section>
 
                     <section>
@@ -29,7 +29,7 @@ const Terms = () => {
 
                     <section>
                         <h2 className="text-xl font-semibold text-foreground mb-3">5. User Responsibilities</h2>
-                        <p>Users are responsible for maintaining the confidentiality of their account. ChefOS is not liable for any loss or damage arising from unauthorized access to your account.</p>
+                        <p>Users are responsible for maintaining the confidentiality of their account. mikiOS is not liable for any loss or damage arising from unauthorized access to your account.</p>
                     </section>
 
                     <p className="text-sm pt-8 border-t border-border">Last updated: February 9, 2026</p>

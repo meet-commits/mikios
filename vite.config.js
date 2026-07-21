@@ -14,21 +14,21 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['chefos-logo.svg', 'favicon.png', 'apple-touch-icon.png', 'og-image.svg', 'robots.txt'],
+      includeAssets: ['mikios-logo.svg', 'favicon.png', 'apple-touch-icon.png', 'og-image.svg', 'robots.txt'],
       manifest: {
-        name: 'ChefOS - Smart Restaurant Management',
-        short_name: 'ChefOS',
+        name: 'mikiOS - Smart Restaurant Management',
+        short_name: 'mikiOS',
         description: 'Premium QR Menu & Kitchen Operating System',
         theme_color: '#ca8a04',
         icons: [
           {
-            src: 'chefos-logo.svg',
+            src: 'mikios-logo.svg',
             sizes: '192x192',
             type: 'image/svg+xml',
             purpose: 'any'
           },
           {
-            src: 'chefos-logo.svg',
+            src: 'mikios-logo.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
             purpose: 'maskable'

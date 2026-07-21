@@ -9,7 +9,7 @@ export const ROICalculator = () => {
     const [turns, setTurns] = useState(3);
 
     const calculations = useMemo(() => {
-        // Assume ChefOS saves 12 minutes per table turn (ordering + payment speed)
+        // Assume mikiOS saves 12 minutes per table turn (ordering + payment speed)
         // Assume this leads to 0.5 additional turns per table per day on average
         const currentDailyRevenue = tables * checkSize * turns;
         const potentialDailyRevenue = tables * checkSize * (turns + 0.5);
@@ -33,7 +33,7 @@ export const ROICalculator = () => {
                         See the <span className="text-gradient">Financial Impact</span>
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                        ChefOS isn't an expense—it's a revenue generator. Use our calculator to see
+                        mikiOS isn't an expense—it's a revenue generator. Use our calculator to see
                         how much more you could be earning by optimizing your operations.
                     </p>
                 </AnimatedSection>
@@ -56,8 +56,8 @@ export const ROICalculator = () => {
 
                             <div className="space-y-4">
                                 <div className="flex justify-between items-end">
-                                    <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Avg. Check Size ($)</label>
-                                    <span className="text-2xl font-black text-primary">${checkSize}</span>
+                                    <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Avg. Check Size (₹)</label>
+                                    <span className="text-2xl font-black text-primary">₹{checkSize}</span>
                                 </div>
                                 <input
                                     type="range" min="5" max="500" value={checkSize}

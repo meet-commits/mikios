@@ -26,7 +26,7 @@ const Checkout = () => {
             return;
         }
 
-        const securityToken = localStorage.getItem('chefos_security_token');
+        const securityToken = localStorage.getItem('mikios_security_token');
 
         const orderData = {
             restaurant: restaurant._id,
@@ -57,7 +57,7 @@ const Checkout = () => {
 
             if (res.data.success) {
                 clearCart();
-                localStorage.setItem('chefos_last_order_id', res.data.data._id);
+                localStorage.setItem('mikios_last_order_id', res.data.data._id);
                 toast.success("Order placed successfully!");
                 navigate(`/menu/${restaurant._id}/order-tracking/${res.data.data._id}`);
             }

@@ -19,7 +19,7 @@ const FloatingActionMenu = ({ restaurant, tableId, openChefAI }) => {
     };
 
     const handleCallWaiter = async () => {
-        const orderId = localStorage.getItem('chefos_last_order_id');
+        const orderId = localStorage.getItem('mikios_last_order_id');
         if (!orderId) {
             toast.error("Please place an order first to call a waiter.");
             return;
@@ -50,7 +50,7 @@ const FloatingActionMenu = ({ restaurant, tableId, openChefAI }) => {
     };
 
     const handleRequestBill = async () => {
-        const orderId = localStorage.getItem('chefos_last_order_id');
+        const orderId = localStorage.getItem('mikios_last_order_id');
         if (!orderId) {
             toast.error("Please place an order first to request the bill.");
             return;

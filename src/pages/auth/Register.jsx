@@ -148,7 +148,7 @@ const Register = () => {
                     <h1 className="text-3xl font-black text-white tracking-tight mb-4">Check Your Email</h1>
                     <p className="text-white/60 leading-relaxed font-medium mb-8">
                         We've sent a verification link to <span className="text-primary">{formData.email}</span>.
-                        Please click the link to verify your account and start using ChefOS.
+                        Please click the link to verify your account and start using mikiOS.
                     </p>
 
                     <div className="space-y-4">
@@ -214,7 +214,7 @@ const Register = () => {
                             <Logo className="w-auto h-16" variant="inverse" />
                         </div>
                         <h2 className="font-display text-4xl font-bold text-background mb-6 leading-tight">
-                            Start Your Journey with ChefOS
+                            Start Your Journey with mikiOS
                         </h2>
 
                         <div className="space-y-6 mt-12">
@@ -255,7 +255,7 @@ const Register = () => {
                     <div className="flex justify-between items-center mb-8">
                         <div className="text-left">
                             <h2 className="font-display text-3xl font-bold mb-2">Create Account</h2>
-                            <p className="text-muted-foreground">Join 89+ restaurants growing with ChefOS.</p>
+                            <p className="text-muted-foreground">Join 89+ restaurants growing with mikiOS.</p>
                         </div>
                         <ThemeToggle className="theme-toggle-container" />
                     </div>

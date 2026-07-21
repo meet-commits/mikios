@@ -397,7 +397,7 @@ const OrderManagement = () => {
                             <div className="bg-card border border-border p-4 rounded-xl flex items-center justify-between shadow-sm min-w-[240px] snap-center">
                                 <div>
                                     <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Est. Revenue</p>
-                                    <h3 className="text-2xl font-bold text-foreground">${stats.revenue.toFixed(2)}</h3>
+                                    <h3 className="text-2xl font-bold text-foreground">₹{stats.revenue.toFixed(2)}</h3>
                                 </div>
                                 <div className="p-3 bg-green-500/10 rounded-full text-green-500">
                                     <DollarSign size={20} />
@@ -559,7 +559,7 @@ const OrderManagement = () => {
                                                     {order.paymentStatus}
                                                 </span>
                                             </td>
-                                            <td className="p-4 text-right font-bold text-foreground">${order.total.toFixed(2)}</td>
+                                            <td className="p-4 text-right font-bold text-foreground">₹{order.total.toFixed(2)}</td>
                                             <td className="p-4 text-muted-foreground">
                                                 {new Date(order.createdAt).toLocaleString()}
                                             </td>

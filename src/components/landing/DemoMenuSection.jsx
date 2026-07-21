@@ -155,7 +155,7 @@ export const DemoMenuSection = () => {
                         Superior <span className="text-gradient italic">Guest Experience</span>
                     </h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto italic font-medium">
-                        ChefOS isn't just a backend tool. It's an elegant extension of your brand that
+                        mikiOS isn't just a backend tool. It's an elegant extension of your brand that
                         removes ordering friction and maximizes table turnover while delighting your guests.
                     </p>
                 </AnimatedSection>

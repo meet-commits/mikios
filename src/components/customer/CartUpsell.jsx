@@ -49,7 +49,7 @@ const CartUpsell = ({ restaurantId }) => {
                         </div>
                         <div className="flex-1">
                             <h4 className="font-bold text-sm line-clamp-1">{item.name}</h4>
-                            <p className="text-xs text-gray-400 font-mono">${item.price}</p>
+                            <p className="text-xs text-gray-400 font-mono">₹{item.price}</p>
                         </div>
                         <button
                             onClick={() => handleQuickAdd(item)}

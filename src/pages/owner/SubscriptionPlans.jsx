@@ -121,7 +121,7 @@ const SubscriptionPlans = ({ restaurantId }) => {
                             Monthly Total
                         </span>
                         <span className="text-2xl font-bold text-primary-500">
-                            ${selectedPlan.price}
+                            ₹{selectedPlan.price}
                         </span>
                     </div>
                 </div>
@@ -198,7 +198,7 @@ const SubscriptionPlans = ({ restaurantId }) => {
 
                                 <div className="flex items-baseline mb-6">
                                     <span className="text-4xl font-bold text-gray-900 dark:text-white">
-                                        ${plan.price}
+                                        ₹{plan.price}
                                     </span>
                                     <span className="text-gray-600 dark:text-gray-400 ml-2">
                                         /month

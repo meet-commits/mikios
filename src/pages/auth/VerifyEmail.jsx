@@ -180,7 +180,7 @@ const VerifyEmail = () => {
             {/* Attribution */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.3em]">
-                    Powered by ChefOS intelligence
+                    Powered by mikiOS intelligence
                 </p>
             </div>
         </div>

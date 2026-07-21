@@ -418,7 +418,7 @@ const Analytics = () => {
                                                     </div>
                                                     <div className="p-4 bg-muted/30 rounded-2xl border border-border/50">
                                                         <p className="text-[8px] uppercase tracking-widest font-black text-muted-foreground mb-1">Revenue</p>
-                                                        <p className="text-lg font-black text-primary">${Math.round(item.totalRevenue)}</p>
+                                                        <p className="text-lg font-black text-primary">₹{Math.round(item.totalRevenue)}</p>
                                                     </div>
                                                 </div>
                                                 <div className="space-y-2 mt-2">

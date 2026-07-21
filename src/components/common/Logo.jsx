@@ -21,7 +21,7 @@ const Logo = ({ className = "w-auto h-10", iconOnly = false, variant = "default"
             {!iconOnly && (
                 <div className="flex flex-col -space-y-1 text-left">
                     <span className={`font-display text-2xl font-black tracking-tight ${textColor}`}>
-                        Chef<span className="text-primary italic">OS</span>
+                        miki<span className="text-primary italic">OS</span>
                     </span>
                     <span className={`text-[8px] font-bold uppercase tracking-[0.3em] ${subTextColor} pl-0.5`}>
                         Modern Restaurant OS

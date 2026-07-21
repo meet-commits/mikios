@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://chefos.pro/</loc>
+    <loc>https://mikios.pro/</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://chefos.pro/login</loc>
+    <loc>https://mikios.pro/login</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chefos.pro/register</loc>
+    <loc>https://mikios.pro/register</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chefos.pro/terms</loc>
+    <loc>https://mikios.pro/terms</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://chefos.pro/privacy</loc>
+    <loc>https://mikios.pro/privacy</loc>
     <lastmod>2026-02-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

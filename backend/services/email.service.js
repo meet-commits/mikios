@@ -66,9 +66,9 @@ if (!process.env.RESEND_API_KEY) {
 export const sendPasswordResetOTP = async (email, otp, userName) => {
     try {
         const mailOptions = {
-            from: process.env.EMAIL_FROM || `"ChefOS" <${process.env.EMAIL_USER}>`,
+            from: process.env.EMAIL_FROM || `"mikiOS" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Password Reset OTP - ChefOS',
+            subject: 'Password Reset OTP - mikiOS',
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -107,17 +107,17 @@ export const sendPasswordResetOTP = async (email, otp, userName) => {
                             </div>
 
                             <p>If you need help, contact our support team.</p>
-                            <p>Best regards,<br><strong>ChefOS Team</strong></p>
+                            <p>Best regards,<br><strong>mikiOS Team</strong></p>
                         </div>
                         <div class="footer">
-                            <p>© ${new Date().getFullYear()} ChefOS. All rights reserved.</p>
+                            <p>© ${new Date().getFullYear()} mikiOS. All rights reserved.</p>
                             <p>This is an automated email, please do not reply.</p>
                         </div>
                     </div>
                 </body>
                 </html>
             `,
-            text: `Hello ${userName},\n\nYour password reset OTP is: ${otp}\n\nThis code is valid for 10 minutes.\n\nIf you didn't request this, please ignore this email.\n\nBest regards,\nChefOS Team`
+            text: `Hello ${userName},\n\nYour password reset OTP is: ${otp}\n\nThis code is valid for 10 minutes.\n\nIf you didn't request this, please ignore this email.\n\nBest regards,\nmikiOS Team`
         };
 
         const info = await sendMail(mailOptions);
@@ -140,12 +140,12 @@ export const sendPasswordResetOTP = async (email, otp, userName) => {
 // Send Email Verification
 export const sendVerificationEmail = async (email, token, userName) => {
     try {
-        const verificationUrl = `${process.env.CLIENT_URL || 'https://chefos.pro'}/verify-email?token=${token}`;
+        const verificationUrl = `${process.env.CLIENT_URL || 'https://mikios.pro'}/verify-email?token=${token}`;
 
         const mailOptions = {
-            from: process.env.EMAIL_FROM || `"ChefOS" <${process.env.EMAIL_USER}>`,
+            from: process.env.EMAIL_FROM || `"mikiOS" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Verify Your Email - ChefOS',
+            subject: 'Verify Your Email - mikiOS',
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -166,7 +166,7 @@ export const sendVerificationEmail = async (email, token, userName) => {
                         </div>
                         <div class="content">
                             <p>Hello <strong>${userName}</strong>,</p>
-                            <p>Thank you for signing up with ChefOS! To complete your registration and start managing your restaurant, please verify your email address by clicking the button below:</p>
+                            <p>Thank you for signing up with mikiOS! To complete your registration and start managing your restaurant, please verify your email address by clicking the button below:</p>
                             
                             <a href="${verificationUrl}" class="button">Verify Email Address</a>
 
@@ -174,16 +174,16 @@ export const sendVerificationEmail = async (email, token, userName) => {
                             <p style="word-break: break-all; color: #6366f1;">${verificationUrl}</p>
 
                             <p>This link will expire in 24 hours.</p>
-                            <p>Best regards,<br><strong>ChefOS Team</strong></p>
+                            <p>Best regards,<br><strong>mikiOS Team</strong></p>
                         </div>
                         <div class="footer">
-                            <p>© ${new Date().getFullYear()} ChefOS. All rights reserved.</p>
+                            <p>© ${new Date().getFullYear()} mikiOS. All rights reserved.</p>
                         </div>
                     </div>
                 </body>
                 </html>
             `,
-            text: `Hello ${userName},\n\nPlease verify your email address by clicking this link: ${verificationUrl}\n\nBest regards,\nChefOS Team`
+            text: `Hello ${userName},\n\nPlease verify your email address by clicking this link: ${verificationUrl}\n\nBest regards,\nmikiOS Team`
         };
 
         const info = await sendMail(mailOptions);
@@ -207,9 +207,9 @@ export const sendVerificationEmail = async (email, token, userName) => {
 export const sendWelcomeEmail = async (email, userName) => {
     try {
         const mailOptions = {
-            from: process.env.EMAIL_FROM || `"ChefOS" <${process.env.EMAIL_USER}>`,
+            from: process.env.EMAIL_FROM || `"mikiOS" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Welcome to ChefOS! 🎉',
+            subject: 'Welcome to mikiOS! 🎉',
             html: `
                 <!DOCTYPE html>
                 <html>
@@ -225,17 +225,17 @@ export const sendWelcomeEmail = async (email, userName) => {
                 <body>
                     <div class="container">
                         <div class="header">
-                            <h1>🎉 Welcome to ChefOS!</h1>
+                            <h1>🎉 Welcome to mikiOS!</h1>
                         </div>
                         <div class="content">
                             <p>Hello <strong>${userName}</strong>,</p>
-                            <p>Your email has been successfully verified! Welcome to ChefOS - your all-in-one smart restaurant management platform.</p>
+                            <p>Your email has been successfully verified! Welcome to mikiOS - your all-in-one smart restaurant management platform.</p>
                             <p>You can now log in and start configuring your digital restaurant, managing your menu, and tracking orders in real-time.</p>
                             <p>If you have any questions, feel free to reach out to our support team.</p>
-                            <p>Best regards,<br><strong>ChefOS Team</strong></p>
+                            <p>Best regards,<br><strong>mikiOS Team</strong></p>
                         </div>
                         <div class="footer">
-                            <p>© ${new Date().getFullYear()} ChefOS. All rights reserved.</p>
+                            <p>© ${new Date().getFullYear()} mikiOS. All rights reserved.</p>
                         </div>
                     </div>
                 </body>

@@ -22,8 +22,19 @@ const ProtectedRoute = ({ children, roles = [], permission }) => {
         return <Navigate to="/login" replace />;
     }
 
+    const defaultRolePermissions = {
+        CHEF: ['orders', 'inventory', 'menu', 'dashboard'],
+        WAITER: ['orders', 'tables', 'service', 'complaints', 'dashboard'],
+        ADMIN: ['orders', 'tables', 'menu', 'inventory', 'staff', 'analytics', 'reviews', 'service', 'complaints', 'settings', 'dashboard'],
+        OWNER: ['orders', 'tables', 'menu', 'inventory', 'staff', 'analytics', 'reviews', 'service', 'complaints', 'settings', 'dashboard']
+    };
+
     const hasRole = roles.length === 0 || roles.includes(user.role);
-    const hasPermission = !permission || user.permissions?.includes(permission) || user.role === 'OWNER' || user.role === 'ADMIN';
+    const hasPermission = !permission || 
+                          user.role === 'OWNER' || 
+                          user.role === 'ADMIN' || 
+                          user.permissions?.includes(permission) ||
+                          defaultRolePermissions[user.role]?.includes(permission);
 
     if (!hasRole || !hasPermission) {
         console.warn('[ProtectedRoute] Access denied. Redirecting...', {
@@ -36,7 +47,7 @@ const ProtectedRoute = ({ children, roles = [], permission }) => {
         });
 
         if (user.role === 'OWNER') return <Navigate to="/onboarding" replace />;
-        // If staff, try to find a safe route
+        if (user.role === 'CHEF' || user.role === 'WAITER') return <Navigate to="/orders" replace />;
         if (user.permissions?.includes('orders')) return <Navigate to="/orders" replace />;
         if (user.permissions?.includes('dashboard')) return <Navigate to="/dashboard" replace />;
 

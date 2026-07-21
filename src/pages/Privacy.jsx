@@ -14,7 +14,7 @@ const Privacy = () => {
 
                     <section>
                         <h2 className="text-xl font-semibold text-foreground mb-3">2. How We Use Data</h2>
-                        <p>Your data is used to provide the ChefOS platform services, process subscriptions, and communicate important updates regarding your account.</p>
+                        <p>Your data is used to provide the mikiOS platform services, process subscriptions, and communicate important updates regarding your account.</p>
                     </section>
 
                     <section>

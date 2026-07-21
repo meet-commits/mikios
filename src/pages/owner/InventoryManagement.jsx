@@ -348,7 +348,7 @@ const InventoryManagement = () => {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col items-end">
-                                                <span className="text-lg font-black text-foreground">${(item.costPrice || 0).toFixed(2)}</span>
+                                                <span className="text-lg font-black text-foreground">₹{(item.costPrice || 0).toFixed(2)}</span>
                                                 <span className="text-[8px] font-black uppercase text-muted-foreground tracking-widest">Unit Cost</span>
                                             </div>
                                         </div>

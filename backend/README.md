@@ -1,6 +1,6 @@
-# ⚙️ ChefOS Backend: The Engine of Restaurant Intelligence
+# ⚙️ mikiOS Backend: The Engine of Restaurant Intelligence
 
-Welcome to the **ChefOS Backend**, a high-performance, real-time API and server ecosystem designed to handle the complex operations of a modern, data-driven restaurant.
+Welcome to the **mikiOS Backend**, a high-performance, real-time API and server ecosystem designed to handle the complex operations of a modern, data-driven restaurant.
 
 This backend isn't just a database wrapper—it's a multi-service engine that coordinates AI-driven guest interactions, real-time kitchen synchronization, secure financial transactions, and predictive analytics.
 
@@ -97,4 +97,4 @@ The server includes a built-in health monitoring system:
 
 ---
 
-© 2026 **ChefOS Intelligence**. Engineered for the modern culinary industry.
+© 2026 **mikiOS Intelligence**. Engineered for the modern culinary industry.

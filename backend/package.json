@@ -1,7 +1,7 @@
 {
     "name": "menusphere-backend",
     "version": "1.0.0",
-    "description": "ChefOS - Smart QR-Based 3D Menu, Ordering & Kitchen System Backend",
+    "description": "mikiOS - Smart QR-Based 3D Menu, Ordering & Kitchen System Backend",
     "main": "server.js",
     "type": "module",
     "scripts": {

@@ -22,16 +22,16 @@ const CustomerLayout = () => {
     const queryTableId = searchParams.get('table');
 
     // Effective IDs
-    const restaurantId = pathRestaurantId || localStorage.getItem('chefos_restaurant_id');
-    const tableId = pathTableId || queryTableId || localStorage.getItem('chefos_table_id');
+    const restaurantId = pathRestaurantId || localStorage.getItem('mikios_restaurant_id');
+    const tableId = pathTableId || queryTableId || localStorage.getItem('mikios_table_id');
 
     // Sync to localStorage
     useEffect(() => {
         if (pathRestaurantId) {
-            localStorage.setItem('chefos_restaurant_id', pathRestaurantId);
+            localStorage.setItem('mikios_restaurant_id', pathRestaurantId);
         }
         if (pathTableId || queryTableId) {
-            localStorage.setItem('chefos_table_id', pathTableId || queryTableId);
+            localStorage.setItem('mikios_table_id', pathTableId || queryTableId);
         }
     }, [pathRestaurantId, pathTableId, queryTableId]);
 
@@ -55,7 +55,7 @@ const CustomerLayout = () => {
             if (!tableId) return null;
             const res = await api.get(`/tables/${tableId}`);
             if (res.data.data?.currentSession?.securityToken) {
-                localStorage.setItem('chefos_security_token', res.data.data.currentSession.securityToken);
+                localStorage.setItem('mikios_security_token', res.data.data.currentSession.securityToken);
             }
             return res.data.data;
         },

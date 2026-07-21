@@ -1,95 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&display=swap');
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cinzel+Decorative:wght@400;700;900&display=swap');
-
 .font-logo-stylish {
-  font-family: 'Cinzel Decorative', cursive;
-  letter-spacing: 0.1em;
-  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.15em;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
-/* Premium Restaurant SaaS Design System */
+/* Premium Restaurant SaaS Design System - Obsidian Indigo/Cyan Theme */
 
 @layer base {
   :root {
-    --background: 40 30% 98%;
-    --foreground: 220 20% 10%;
+    --background: 222 47% 6%; /* #030712 - Deep dark background */
+    --foreground: 210 40% 98%; /* #f8fafc - Bright text */
 
-    --card: 40 25% 99%;
-    --card-foreground: 220 20% 10%;
+    --card: 222 47% 9%; /* #0b0f19 - Dark card */
+    --card-foreground: 210 40% 98%;
 
-    --popover: 40 25% 99%;
-    --popover-foreground: 220 20% 10%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 38 92% 50%;
+    --primary: 250 89% 65%; /* #6366F1 - Electric Indigo */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 40 20% 94%;
-    --secondary-foreground: 220 20% 20%;
+    --secondary: 222 25% 15%; /* #1e293b - Slate-800 */
+    --secondary-foreground: 210 40% 90%;
 
-    --muted: 40 15% 92%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 222 25% 12%; /* Slate-900 */
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 16 80% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 190 90% 50%; /* #06B6D4 - Neon Cyan */
+    --accent-foreground: 222 47% 6%;
 
-    --success: 152 60% 45%;
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 38 92% 50%;
+    --border: 222 25% 16%;
+    --input: 222 25% 16%;
+    --ring: 250 89% 65%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    /* Custom tokens */
-    --gradient-warm: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(28 95% 55%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(40 30% 98%) 0%, hsl(40 25% 95%) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(220 20% 10%) 0%, hsl(220 25% 15%) 100%);
+    /* Custom creative styling tokens */
+    --gradient-warm: linear-gradient(135deg, hsl(250 89% 65%) 0%, hsl(190 90% 50%) 100%);
+    --gradient-hero: radial-gradient(circle at top, hsl(250 40% 15%) 0%, hsl(222 47% 6%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(222 47% 6%) 0%, hsl(222 30% 10%) 100%);
 
-    --shadow-soft: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-    --shadow-medium: 0 8px 30px -8px rgba(0, 0, 0, 0.12);
-    --shadow-elevated: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
-    --shadow-glow: 0 0 40px -10px hsl(38 92% 50% / 0.4);
+    --shadow-soft: 0 4px 30px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.6);
+    --shadow-elevated: 0 20px 50px rgba(0, 0, 0, 0.8);
+    --shadow-glow: 0 0 30px hsl(250 89% 65% / 0.35);
   }
 
   .dark {
-    --background: 220 20% 8%;
-    --foreground: 40 20% 95%;
-
-    --card: 220 20% 10%;
-    --card-foreground: 40 20% 95%;
-
-    --popover: 220 20% 10%;
-    --popover-foreground: 40 20% 95%;
-
-    --primary: 38 92% 55%;
-    --primary-foreground: 220 20% 10%;
-
-    --secondary: 220 15% 18%;
-    --secondary-foreground: 40 20% 90%;
-
-    --muted: 220 15% 15%;
-    --muted-foreground: 40 10% 60%;
-
-    --accent: 16 80% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --success: 152 60% 45%;
-    --success-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 38 92% 55%;
+    /* Kept matching for dark preference requests */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 250 89% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 25% 15%;
+    --secondary-foreground: 210 40% 90%;
+    --muted: 222 25% 12%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 190 90% 50%;
+    --accent-foreground: 222 47% 6%;
+    --border: 222 25% 16%;
+    --input: 222 25% 16%;
+    --ring: 250 89% 65%;
   }
 }
 
@@ -105,6 +92,8 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    background-image: var(--gradient-hero);
+    background-attachment: fixed;
   }
 
   h1,
@@ -113,31 +102,33 @@
   h4,
   h5,
   h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
   .glass-card {
-    background-color: hsl(var(--card) / 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.5);
-    border-radius: 1rem;
+    background: rgba(11, 15, 25, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
     box-shadow: var(--shadow-soft);
   }
 
   .glass-card-hover {
-    background-color: hsl(var(--card) / 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.5);
-    border-radius: 1rem;
+    background: rgba(11, 15, 25, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
     box-shadow: var(--shadow-soft);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass-card-hover:hover {
-    box-shadow: var(--shadow-elevated);
-    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated), var(--shadow-glow);
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateY(-6px);
   }
 
   .text-gradient {
@@ -150,21 +141,22 @@
   .btn-primary {
     position: relative;
     overflow: hidden;
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    font-weight: 500;
-    padding: 0.75rem 1.5rem;
+    background: var(--gradient-warm);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 1.75rem;
     border-radius: 0.75rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: var(--shadow-soft), var(--shadow-glow);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    border: none;
   }
 
   .btn-primary:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-medium), var(--shadow-glow);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-medium), 0 0 40px hsl(250 89% 65% / 0.5);
   }
 
   .btn-secondary {
@@ -212,7 +204,6 @@
     display: none;
   }
 
-  /* Custom Scrollbar */
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
@@ -236,7 +227,6 @@
     background-color: hsl(var(--muted-foreground) / 0.5);
   }
 
-  /* Carousel Scrollbar - Yellow/Primary */
   .carousel-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--primary)) transparent;
@@ -247,7 +237,7 @@
   }
 
   .carousel-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 3px;
   }
 
@@ -262,7 +252,6 @@
     background-color: hsl(var(--accent));
   }
 
-  /* Touch Scroll Improvement */
   .touch-pan-x {
     touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
@@ -270,7 +259,6 @@
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
@@ -282,7 +270,6 @@
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;

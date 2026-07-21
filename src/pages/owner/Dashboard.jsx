@@ -223,7 +223,7 @@ const Dashboard = () => {
     const stats = [
         {
             title: "Total Revenue",
-            value: loading ? "..." : (analytics ? `$${analytics.today.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$0.00"),
+            value: loading ? "..." : (analytics ? `₹${analytics.today.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "₹0.00"),
             trend: loading ? "..." : (analytics?.trends?.revenue || "0%"),
             positive: parseFloat(analytics?.trends?.revenue || 0) >= 0,
             icon: DollarSign,

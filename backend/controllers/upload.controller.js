@@ -1,6 +1,8 @@
 import cloudinary from '../config/cloudinary.js';
+import path from 'path';
+import fs from 'fs';
 
-// @desc    Upload single image to Cloudinary
+// @desc    Upload single image to Cloudinary or Local Storage
 // @route   POST /api/upload/image
 // @access  Private
 export const uploadImage = async (req, res, next) => {
@@ -12,8 +14,10 @@ export const uploadImage = async (req, res, next) => {
             });
         }
 
-        // File is already uploaded to Cloudinary by multer middleware
-        const imageUrl = req.file.path;
+        // File is either uploaded to Cloudinary or stored on disk
+        const imageUrl = req.file.path.startsWith('http')
+            ? req.file.path
+            : `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
         res.status(200).json({
             success: true,
@@ -28,15 +32,25 @@ export const uploadImage = async (req, res, next) => {
     }
 };
 
-// @desc    Delete image from Cloudinary
+// @desc    Delete image from Cloudinary or Local Storage
 // @route   DELETE /api/upload/image/:publicId
 // @access  Private
 export const deleteImage = async (req, res, next) => {
     try {
         const { publicId } = req.params;
 
-        // Delete from Cloudinary
-        const result = await cloudinary.uploader.destroy(publicId);
+        let result;
+        // If it starts with the folder name 'mikios', delete from Cloudinary
+        if (publicId.startsWith('mikios/')) {
+            result = await cloudinary.uploader.destroy(publicId);
+        } else {
+            // Delete from local disk
+            const filePath = path.join('uploads', publicId);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+            result = { result: 'ok' };
+        }
 
         if (result.result === 'ok') {
             res.status(200).json({

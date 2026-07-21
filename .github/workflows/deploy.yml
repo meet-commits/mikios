@@ -27,7 +27,7 @@ jobs:
       with:
         context: ./backend
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/chefos-backend:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mikios-backend:latest
     
     # Optional: Webhook to trigger Render/PaaS deployment
     - name: Trigger Render Deploy

@@ -1,4 +1,4 @@
-<h1 align="center">🍽️ ChefOS</h1>
+<h1 align="center">🍽️ mikiOS</h1>
 
 <p align="center">
   <strong>Smart QR-Based 3D Menu, Real-time Ordering & Kitchen Display System</strong>
@@ -17,15 +17,15 @@
 
 ## 📖 Project Description
 
-**ChefOS** is a comprehensive, production-grade MERN stack SaaS application tailored for restaurants, cafes, and modern dining establishments. Designed to streamline operations, it offers an end-to-end QR-based digital menu experience with interactive 3D models while seamlessly connecting customers to a robust real-time ordering and kitchen display system. Through its diverse sets of features, including multi-tenant support for restaurant owners, AI-driven dish recommendations, inventory tracking, analytics, and secure payment processing, ChefOS empowers modern dining businesses to rapidly digitize and scale their infrastructure.
+**mikiOS** is a comprehensive, production-grade MERN stack SaaS application tailored for restaurants, cafes, and modern dining establishments. Designed to streamline operations, it offers an end-to-end QR-based digital menu experience with interactive 3D models while seamlessly connecting customers to a robust real-time ordering and kitchen display system. Through its diverse sets of features, including multi-tenant support for restaurant owners, AI-driven dish recommendations, inventory tracking, analytics, and secure payment processing, mikiOS empowers modern dining businesses to rapidly digitize and scale their infrastructure.
 
 ## 🔗 Live Demo & Repository
-> **Live Deployment:** [https://chefos.pro](https://chefos.pro)  
-> **GitHub Repository:** [https://github.com/Asim12312/ChefOS.git](https://github.com/Asim12312/ChefOS.git)
+> **Live Deployment:** [https://mikios.pro](https://mikios.pro)  
+> **GitHub Repository:** [https://github.com/Asim12312/mikiOS.git](https://github.com/Asim12312/mikiOS.git)
 
 ## 📸 Screenshots
 
-Here is a glimpse of the ChefOS platform across different modules:
+Here is a glimpse of the mikiOS platform across different modules:
 
 ### Landing Page
 ![Landing Page](./snips/landing.PNG)
@@ -100,7 +100,7 @@ Here is a glimpse of the ChefOS platform across different modules:
 
 ## 🏗️ System Architecture Overview
 
-ChefOS utilizes a robust Model-View-Controller (MVC) approach on the backend combined with a reactive, component-driven frontend. 
+mikiOS utilizes a robust Model-View-Controller (MVC) approach on the backend combined with a reactive, component-driven frontend. 
 - The **Client Layer** communicates securely via RESTful APIs for transactional data (e.g. Auth, Crud Ops) and WebSocket channels for instant, bidirectional real-time events (Orders, Status Updates).
 - The **Service Layer** integrates third-party pipelines such as Stripe for payments, Cloudinary for static assets, and Google Generative AI for recommendation models.
 - The **Data Layer** guarantees ACID-like structures through MongoDB & Redis for high-performant cache delivery and real-time locking mechanisms to prevent double orders.
@@ -108,7 +108,7 @@ ChefOS utilizes a robust Model-View-Controller (MVC) approach on the backend com
 ## 📂 Folder Structure
 
 ```text
-ChefOS/
+mikiOS/
 ├── backend/
 │   ├── config/           # Environment & DB connection settings
 │   ├── controllers/      # Route handlers & core business logic
@@ -165,8 +165,8 @@ A concise look at standard application APIs (Bearer Authentication required for 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/Asim12312/ChefOS.git
-cd ChefOS
+git clone https://github.com/Asim12312/mikiOS.git
+cd mikiOS
 ```
 
 ### 2. Backend Setup
@@ -193,7 +193,7 @@ NODE_ENV=development
 CLIENT_URL=http://localhost:5173
 
 # MongoDB Connection
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/chefos
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/mikios
 
 # Authentication Flags
 JWT_SECRET=your_super_secret_jwt_key
@@ -250,7 +250,7 @@ npm run lint
 
 ## 🌐 Deployment
 
-ChefOS operates seamlessly using scaling providers like Vercel and Render:
+mikiOS operates seamlessly using scaling providers like Vercel and Render:
 
 1. **Frontend**: Simply link the Github repository natively via Vercel. Pushing the `main` branch to Vercel builds the Vite-based output.
 2. **Backend**: Utilize Docker, Render Web Services, or AWS EC2. Remember to set `.env` environmental properties natively on the deployment server host.

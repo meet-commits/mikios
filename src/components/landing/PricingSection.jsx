@@ -44,7 +44,7 @@ const getPlanFeatures = (isPremium) => {
 export const PricingSection = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [currency, setCurrency] = useState({ code: "USD", symbol: "$", rate: 1, name: "Global" });
+    const [currency, setCurrency] = useState({ code: "INR", symbol: "₹", rate: 83, name: "India" });
     const [isDetecting, setIsDetecting] = useState(true);
 
     useEffect(() => {

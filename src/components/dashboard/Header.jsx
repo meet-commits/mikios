@@ -12,13 +12,13 @@ const Header = ({ onMobileMenuClick }) => {
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const [lastReadTime, setLastReadTime] = useState(() => {
-        return parseInt(localStorage.getItem('chefos_notifications_last_read') || '0');
+        return parseInt(localStorage.getItem('mikios_notifications_last_read') || '0');
     });
 
     const handleMarkAllRead = () => {
         const now = Date.now();
         setLastReadTime(now);
-        localStorage.setItem('chefos_notifications_last_read', now.toString());
+        localStorage.setItem('mikios_notifications_last_read', now.toString());
     };
 
     const processedNotifications = notifications.map(n => ({

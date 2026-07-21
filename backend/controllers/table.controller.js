@@ -52,7 +52,7 @@ export const createTable = async (req, res, next) => {
         });
 
         // Generate QR code image with full URL
-        const frontendUrl = process.env.CLIENT_URL || 'https://chefos.pro';
+        const frontendUrl = process.env.CLIENT_URL || 'https://mikios.pro';
         const fullQrUrl = `${frontendUrl}${table.qrCode}`;
         const qrCodeDataUrl = await QRCode.toDataURL(fullQrUrl);
 
@@ -86,7 +86,7 @@ export const getTables = async (req, res, next) => {
         const tables = await Table.find({ restaurant, isActive: true });
 
         // Generate QR code images for all tables (for dashboard visibility)
-        const frontendUrl = process.env.CLIENT_URL || 'https://chefos.pro';
+        const frontendUrl = process.env.CLIENT_URL || 'https://mikios.pro';
         const tablesWithQR = await Promise.all(tables.map(async (table) => {
             const fullQrUrl = `${frontendUrl}${table.qrCode}`;
             const qrCodeImage = await QRCode.toDataURL(fullQrUrl);
@@ -128,7 +128,7 @@ export const getTable = async (req, res, next) => {
         }
 
         // Generate QR code image with full URL
-        const frontendUrl = process.env.CLIENT_URL || 'https://chefos.pro';
+        const frontendUrl = process.env.CLIENT_URL || 'https://mikios.pro';
         const fullQrUrl = `${frontendUrl}${table.qrCode}`;
         const qrCodeDataUrl = await QRCode.toDataURL(fullQrUrl);
 
@@ -241,7 +241,7 @@ export const downloadQRCode = async (req, res, next) => {
         }
 
         // Generate QR code as buffer with full URL
-        const frontendUrl = process.env.CLIENT_URL || 'https://chefos.pro';
+        const frontendUrl = process.env.CLIENT_URL || 'https://mikios.pro';
         const fullQrUrl = `${frontendUrl}${table.qrCode}`;
         const qrCodeBuffer = await QRCode.toBuffer(fullQrUrl, {
             width: 500,

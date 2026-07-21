@@ -112,6 +112,8 @@ const Login = () => {
             if (user.role === 'OWNER') {
                 const hasRestaurant = await checkRestaurantStatus();
                 navigate(hasRestaurant ? '/dashboard' : '/onboarding');
+            } else if (user.role === 'CHEF' || user.role === 'WAITER') {
+                navigate('/orders');
             } else if (user.permissions?.includes('orders')) {
                 navigate('/orders');
             } else if (user.permissions && user.permissions.length > 0) {
@@ -130,10 +132,8 @@ const Login = () => {
                     'settings': '/settings'
                 };
                 navigate(routeMap[firstPerm] || '/dashboard');
-            } else if (user.role === 'CHEF') {
-                navigate('/orders');
             } else {
-                navigate('/dashboard');
+                navigate('/orders');
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -197,7 +197,7 @@ const Login = () => {
                         </h2>
 
                         <p className="text-background/70 text-lg leading-relaxed mb-8">
-                            Join 89+ restaurants using ChefOS to <span className="text-primary font-semibold">streamline operations, improve guest experience, and simplify management</span> with effortless ordering.
+                            Join 89+ restaurants using mikiOS to <span className="text-primary font-semibold">streamline operations, improve guest experience, and simplify management</span> with effortless ordering.
                         </p>
 
                         <div className="bg-background/10 backdrop-blur-md rounded-2xl p-6 border border-background/10">
@@ -234,7 +234,7 @@ const Login = () => {
                     <div className="flex justify-between items-center mb-8">
                         <div className="text-left">
                             <h2 className="font-display text-3xl font-bold mb-2">Welcome Back</h2>
-                            <p className="text-muted-foreground">Join 89+ restaurants growing with ChefOS.</p>
+                            <p className="text-muted-foreground">Join 89+ restaurants growing with mikiOS.</p>
                         </div>
                         <ThemeToggle className="theme-toggle-container" />
                     </div>

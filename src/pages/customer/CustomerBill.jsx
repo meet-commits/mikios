@@ -12,9 +12,9 @@ const CustomerBill = () => {
     const params = useParams();
     const navigate = useNavigate();
     const { tableId: contextTableId } = useOutletContext() || {};
-    const [storedOrderId] = useState(() => localStorage.getItem('chefos_last_order_id'));
+    const [storedOrderId] = useState(() => localStorage.getItem('mikios_last_order_id'));
     const orderId = params.orderId || storedOrderId;
-    const tableId = contextTableId || localStorage.getItem('chefos_table_id');
+    const tableId = contextTableId || localStorage.getItem('mikios_table_id');
 
     const { data: order, isLoading } = useQuery({
         queryKey: ['order-bill', orderId, tableId],
@@ -64,7 +64,7 @@ const CustomerBill = () => {
             try {
                 await navigator.share({
                     title: `Bill from ${order.restaurant?.name}`,
-                    text: `Hey, here is our bill from ${order.restaurant?.name}. Total: $${(order.total || 0).toFixed(2)}`,
+                    text: `Hey, here is our bill from ${order.restaurant?.name}. Total: ₹${(order.total || 0).toFixed(2)}`,
                     url: window.location.href
                 });
             } catch (error) {
@@ -173,7 +173,7 @@ const CustomerBill = () => {
             <h2 className="text-xl font-bold mb-2">No Bill Found</h2>
             <p className="text-gray-400 mb-6">Access your bill after placing an order.</p>
             <Link
-                to={`/menu/${localStorage.getItem('chefos_restaurant_id') || ''}${localStorage.getItem('chefos_table_id') ? `/${localStorage.getItem('chefos_table_id')}` : ''}`}
+                to={`/menu/${localStorage.getItem('mikios_restaurant_id') || ''}${localStorage.getItem('mikios_table_id') ? `/${localStorage.getItem('mikios_table_id')}` : ''}`}
                 className="text-primary font-bold hover:underline"
             >
                 Back to Menu

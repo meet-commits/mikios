@@ -248,7 +248,7 @@ const Menu = () => {
                                 </div>
                                 <div className="flex flex-col leading-none">
                                     <span className="text-[10px] sm:text-xs text-black/60 uppercase font-semibold">Total</span>
-                                    <span className="text-lg sm:text-lg font-bold">${cartTotal.toFixed(2)}</span>
+                                    <span className="text-lg sm:text-lg font-bold">₹{cartTotal.toFixed(2)}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 text-base sm:text-base">
@@ -305,7 +305,7 @@ const MenuItemCard = ({ item, onClick }) => {
                 <div>
                     <div className="flex justify-between items-start gap-2 mb-1">
                         <h3 className="font-bold text-base sm:text-lg leading-tight text-white line-clamp-1">{item.name}</h3>
-                        <span className="font-bold text-primary font-mono text-base sm:text-lg whitespace-nowrap">${item.price}</span>
+                        <span className="font-bold text-primary font-mono text-base sm:text-lg whitespace-nowrap">₹{item.price}</span>
                     </div>
                     <p className="text-sm sm:text-xs text-gray-400 line-clamp-2 leading-relaxed mb-2">{item.description}</p>
 
@@ -401,7 +401,7 @@ const ItemDetailModal = ({ item, onClose }) => {
                 <div className="px-5 sm:px-6 pb-6 pt-0 overflow-y-auto custom-scrollbar relative z-10 -mt-10 flex-1">
                     <div className="flex justify-between items-start mb-2 gap-3">
                         <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">{item.name}</h2>
-                        <span className="text-xl sm:text-2xl font-bold text-primary whitespace-nowrap">${item.price}</span>
+                        <span className="text-xl sm:text-2xl font-bold text-primary whitespace-nowrap">₹{item.price}</span>
                     </div>
 
                     <p className="text-gray-300 leading-relaxed mb-4 sm:mb-6 text-base sm:text-lg">{item.description}</p>
@@ -457,7 +457,7 @@ const ItemDetailModal = ({ item, onClose }) => {
                         <ShoppingBag size={20} />
                         <span className="text-base sm:text-base">Add to Order</span>
                         <span className="w-1 h-1 rounded-full bg-black/40"></span>
-                        <span className="text-base sm:text-base">${(item.price * quantity).toFixed(2)}</span>
+                        <span className="text-base sm:text-base">₹{(item.price * quantity).toFixed(2)}</span>
                     </button>
                 </div>
             </motion.div>

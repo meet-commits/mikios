@@ -20,7 +20,7 @@ const PageLoader = () => (
         </div>
       </div>
       <div className="flex flex-col items-center gap-1">
-        <p className="animate-pulse text-sm font-semibold text-foreground tracking-[0.2em] uppercase">ChefOS</p>
+        <p className="animate-pulse text-sm font-semibold text-foreground tracking-[0.2em] uppercase">mikiOS</p>
         <p className="text-xs text-muted-foreground/80">System Initializing...</p>
       </div>
     </div>

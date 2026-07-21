@@ -43,7 +43,7 @@ export const sendContactEmail = async (req, res) => {
         // Email content
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: 'chefosteam@gmail.com',
+            to: 'mikiosteam@gmail.com',
             replyTo: email,
             subject: `🔔 New Contact Sales Inquiry from ${name}`,
             html: `
@@ -93,7 +93,7 @@ export const sendContactEmail = async (req, res) => {
                             </div>
                             <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
                             <p style="color: #666; font-size: 12px;">
-                                This inquiry was submitted from the ChefOS landing page contact form.
+                                This inquiry was submitted from the mikiOS landing page contact form.
                             </p>
                         </div>
                     </div>

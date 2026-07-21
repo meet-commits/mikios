@@ -4,11 +4,11 @@ import { AnimatedSection, StaggerContainer, StaggerItem } from "../ui/animated-s
 
 const testimonials = [
     {
-        name: "Rajesh Kumar",
-        role: "Owner, The Curry House",
-        content: "Revenue increased by 22% in the first month. The AI-powered upselling really works—we're seeing much higher beverage sales.",
+        name: "Meet Vaghela",
+        role: "Founder & Lead Architect, mikiOS",
+        content: "We engineered mikiOS to eliminate restaurant operational bottlenecks. Seeing restaurants increase revenue by over 35% with our QR & live order architecture is phenomenal.",
         rating: 5,
-        image: "RK",
+        image: "MV",
     },
     {
         name: "Aisha Ahmed",
