@@ -593,16 +593,20 @@ export const googleAuthCallback = async (req, res) => {
 // @route   GET /api/auth/test-email
 // @access  Public
 export const testEmail = async (req, res) => {
+    const brevoKey = process.env.BREVO_API_KEY
+        ? `PRESENT (len ${process.env.BREVO_API_KEY.length}, start: "${process.env.BREVO_API_KEY.slice(0, 10)}...", end: "...${process.env.BREVO_API_KEY.slice(-5)}")`
+        : 'NOT_SET';
+
     try {
         const { email } = req.query;
-        if (!email) return res.status(400).json({ success: false, message: 'Email query param required' });
+        if (!email) return res.status(400).json({ success: false, message: 'Email query param required', brevoKey });
 
-        logger.info(`Starting email test for: ${email}`);
+        logger.info(`Starting email test for: ${email} | Brevo Key Status: ${brevoKey}`);
         const result = await sendVerificationEmail(email, 'TEST-1234', 'Test User');
 
         res.status(200).json({
             success: true,
-            message: 'Test email dispatch attempt completed. Check backend logs for result.',
+            brevoKey,
             result
         });
     } catch (error) {
@@ -610,9 +614,11 @@ export const testEmail = async (req, res) => {
         logger.error(`Test Email Error: ${JSON.stringify(detail)}`);
         res.status(500).json({
             success: false,
+            brevoKey,
             message: 'Test email failed',
             error: detail
         });
     }
 };
+
 
