@@ -96,10 +96,12 @@ const sendViaBrevo = async (mailOptions) => {
         });
         return { success: true, messageId: response.data.messageId };
     } catch (error) {
-        logger.error(`Brevo API Error: ${error.response?.data?.message || error.message}`);
-        throw error;
+        const payload = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+        logger.error(`Brevo API Error: ${payload}`);
+        throw new Error(`Brevo error: ${payload}`);
     }
 };
+
 
 
 
