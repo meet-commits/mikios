@@ -50,22 +50,27 @@ const sendMail = async (options) => {
     if (process.env.RESEND_API_KEY) {
         return await sendViaResend(options);
     }
-    // Fallback to SMTP
-    return await transporter.sendMail(options);
+    try {
+        return await transporter.sendMail(options);
+    } catch (error) {
+        if (error.code === 'ETIMEDOUT' || error.message.includes('timeout')) {
+            logger.error(`[Email] SMTP port blocked by cloud host (${error.message}). Tip: Set RESEND_API_KEY on Render for free HTTPS email delivery.`);
+        }
+        throw error;
+    }
 };
 
-// Verify connection status (only for SMTP)
-if (!process.env.RESEND_API_KEY) {
+// Verify connection status (only for SMTP when EMAIL_USER is present)
+if (!process.env.RESEND_API_KEY && process.env.EMAIL_USER && process.env.NODE_ENV !== 'production') {
     transporter.verify((error) => {
         if (error) {
-            console.error('❌ [Email] SMTP Connection Failed:', error.message);
-            logger.error(`[Email] SMTP Connection Error: ${error.message}`);
+            logger.warn(`[Email] Local SMTP verification notice: ${error.message}`);
         } else {
-            console.log('✅ [Email] SMTP Server is ready');
-            logger.info('[Email] SMTP Server is ready');
+            logger.info('✅ [Email] SMTP Server is ready');
         }
     });
 }
+
 
 // Send OTP email
 export const sendPasswordResetOTP = async (email, otp, userName) => {
