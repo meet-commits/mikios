@@ -17,7 +17,7 @@ if (import.meta.env.PROD) {
 
 createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <App />
     </ThemeProvider>
   </ErrorBoundary>,
