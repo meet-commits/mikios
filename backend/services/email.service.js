@@ -44,9 +44,37 @@ const transporter = nodemailer.createTransport({
 
 
 
+// Brevo (Sendinblue) client helper (300 free emails/day to ANY recipient without domain)
+const sendViaBrevo = async (mailOptions) => {
+    try {
+        const response = await axios.post('https://api.brevo.com/v3/smtp/email', {
+            sender: {
+                name: 'mikiOS',
+                email: process.env.EMAIL_USER || 'meetzvaghela@gmail.com'
+            },
+            to: [{ email: mailOptions.to }],
+            subject: mailOptions.subject,
+            htmlContent: mailOptions.html
+        }, {
+            headers: {
+                'api-key': process.env.BREVO_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+        return { success: true, messageId: response.data.messageId };
+    } catch (error) {
+        logger.error(`Brevo API Error: ${error.response?.data?.message || error.message}`);
+        throw error;
+    }
+};
+
 // Helper to determine which service to use
 const sendMail = async (options) => {
-    // If RESEND_API_KEY is defined, always use it in production (bypasses port blocks)
+    // If BREVO_API_KEY is defined, use Brevo (allows 300 free emails/day to ANY recipient without custom domain)
+    if (process.env.BREVO_API_KEY) {
+        return await sendViaBrevo(options);
+    }
+    // If RESEND_API_KEY is defined, use Resend
     if (process.env.RESEND_API_KEY) {
         return await sendViaResend(options);
     }
@@ -54,11 +82,12 @@ const sendMail = async (options) => {
         return await transporter.sendMail(options);
     } catch (error) {
         if (error.code === 'ETIMEDOUT' || error.message.includes('timeout')) {
-            logger.error(`[Email] SMTP port blocked by cloud host (${error.message}). Tip: Set RESEND_API_KEY on Render for free HTTPS email delivery.`);
+            logger.error(`[Email] SMTP port blocked by cloud host (${error.message}). Tip: Set BREVO_API_KEY or RESEND_API_KEY on Render for free HTTPS email delivery.`);
         }
         throw error;
     }
 };
+
 
 // Verify connection status (only for SMTP when EMAIL_USER is present)
 if (!process.env.RESEND_API_KEY && process.env.EMAIL_USER && process.env.NODE_ENV !== 'production') {
