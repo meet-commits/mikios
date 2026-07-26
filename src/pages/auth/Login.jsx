@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LogIn, ArrowRight, CheckCircle2, Star, QrCode } from 'lucide-react';
+import { LogIn, ArrowRight, CheckCircle2, Star, QrCode, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Logo from '../../components/common/Logo';
