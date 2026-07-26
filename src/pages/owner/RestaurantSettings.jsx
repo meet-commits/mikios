@@ -269,7 +269,7 @@ const GeneralSettings = ({ restaurant, handleChange, handleFileUpload }) => (
                                 value={restaurant.name || ''}
                                 onChange={handleChange}
                                 className="w-full bg-muted/20 border-2 border-transparent focus:border-primary/50 rounded-2xl py-4 px-6 text-sm font-medium transition-all outline-none"
-                                placeholder="e.g. The Gourmet Kitchen"
+                                placeholder="e.g. The Royal Tandoor"
                             />
                             <Settings size={16} className="absolute right-6 top-1/2 -translate-y-1/2 text-muted-foreground/30 opacity-0 group-hover/field:opacity-100 transition-opacity" />
                         </div>
@@ -296,7 +296,7 @@ const GeneralSettings = ({ restaurant, handleChange, handleFileUpload }) => (
                                 value={restaurant.cuisine || ''}
                                 onChange={handleChange}
                                 className="w-full bg-muted/20 border-2 border-transparent focus:border-primary/50 rounded-2xl py-4 px-6 text-sm font-medium transition-all outline-none"
-                                placeholder="e.g. Italian, Mexican, Fusion"
+                                placeholder="e.g. North Indian, Tandoori, South Indian"
                             />
                             <Settings size={16} className="absolute right-6 top-1/2 -translate-y-1/2 text-muted-foreground/30 opacity-0 group-hover/field:opacity-100 transition-opacity" />
                         </div>
@@ -505,7 +505,7 @@ const LocationSettings = ({ restaurant, handleChange }) => (
                         value={restaurant.contact?.website || ''}
                         onChange={(e) => handleChange(e, 'contact')}
                         className="w-full bg-muted/20 border-2 border-transparent focus:border-primary/50 rounded-2xl py-4 px-6 text-sm font-medium transition-all outline-none"
-                        placeholder="www.yourrestaurant.com"
+                        placeholder="www.royaltandoor.in"
                     />
                 </div>
             </div>

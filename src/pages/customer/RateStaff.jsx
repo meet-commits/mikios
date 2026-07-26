@@ -161,7 +161,7 @@ const RateStaff = () => {
                                     value={customerName}
                                     onChange={e => setCustomerName(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-primary/50 transition-all text-sm"
-                                    placeholder="e.g. Alex Smith"
+                                    placeholder="e.g. Rahul Verma"
                                 />
                             </div>
 

@@ -297,7 +297,7 @@ const StaffManagement = () => {
                                                 value={newStaff.name}
                                                 onChange={e => setNewStaff({ ...newStaff, name: e.target.value })}
                                                 className="w-full bg-muted/20 border-2 border-transparent focus:border-primary/50 rounded-2xl py-4 px-6 outline-none transition-all"
-                                                placeholder="Sarah Jenkins"
+                                                placeholder="Amit Sharma"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -308,7 +308,7 @@ const StaffManagement = () => {
                                                 value={newStaff.email}
                                                 onChange={e => setNewStaff({ ...newStaff, email: e.target.value })}
                                                 className="w-full bg-muted/20 border-2 border-transparent focus:border-primary/50 rounded-2xl py-4 px-6 outline-none transition-all"
-                                                placeholder="sarah@example.com"
+                                                placeholder="amit@curryhouse.in"
                                             />
                                         </div>
                                     </div>

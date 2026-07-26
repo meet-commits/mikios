@@ -301,7 +301,7 @@ const Login = () => {
                             <input
                                 type="email"
                                 className="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                placeholder="name@restaurant.com"
+                                placeholder="meet@curryhouse.in"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required

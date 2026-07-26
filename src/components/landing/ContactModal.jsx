@@ -95,7 +95,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                            placeholder="Chef Ahmad"
+                                            placeholder="Chef Rajesh Sharma"
                                             required
                                         />
                                     </div>
@@ -112,7 +112,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                            placeholder="owner@spicetree.com"
+                                            placeholder="rajesh@spicehub.in"
                                             required
                                         />
                                     </div>
@@ -131,7 +131,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
                                             value={formData.restaurantName}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                            placeholder="Spice Tree Restaurant"
+                                            placeholder="The Royal Tandoor"
                                         />
                                     </div>
 
@@ -147,7 +147,7 @@ export const ContactModal = ({ isOpen, onClose }) => {
                                             value={formData.phone}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                            placeholder="Optional"
+                                            placeholder="+91 98765 43210"
                                         />
                                     </div>
                                 </div>

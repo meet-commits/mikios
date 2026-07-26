@@ -118,7 +118,7 @@ const Demo = () => {
                                     <input
                                         type="email"
                                         required
-                                        placeholder="owner@yourrestaurant.com"
+                                        placeholder="owner@royalspice.in"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-6 focus:bg-white/10 focus:border-primary/50 transition-all outline-none font-bold placeholder:text-white/20"

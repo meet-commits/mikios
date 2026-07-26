@@ -300,7 +300,7 @@ const RestaurantOnboarding = () => {
                                                     name="name"
                                                     value={formData.name}
                                                     onChange={handleChange}
-                                                    placeholder="e.g. The Grand Bistro"
+                                                    placeholder="e.g. The Royal Tandoor"
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
                                                 />
                                             </div>
@@ -435,7 +435,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.address.street}
                                                     onChange={(e) => handleChange(e, 'address')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="123 Culinary Ave"
+                                                    placeholder="101 MG Road, Connaught Place"
                                                 />
                                             </div>
                                             <div className="group">
@@ -446,7 +446,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.address.city}
                                                     onChange={(e) => handleChange(e, 'address')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="New York"
+                                                    placeholder="Mumbai"
                                                 />
                                             </div>
                                             <div className="group">
@@ -457,7 +457,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.address.zipCode}
                                                     onChange={(e) => handleChange(e, 'address')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="10001"
+                                                    placeholder="400001"
                                                 />
                                             </div>
                                             <div className="group">
@@ -468,7 +468,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.address.state}
                                                     onChange={(e) => handleChange(e, 'address')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="NY"
+                                                    placeholder="MH"
                                                 />
                                             </div>
                                             <div className="group">
@@ -479,7 +479,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.address.country}
                                                     onChange={(e) => handleChange(e, 'address')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="USA"
+                                                    placeholder="India"
                                                 />
                                             </div>
                                         </div>
@@ -511,7 +511,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.contact.phone}
                                                     onChange={(e) => handleChange(e, 'contact')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="+1 (555) 000-0000"
+                                                    placeholder="+91 98765 43210"
                                                 />
                                             </div>
                                             <div className="group">
@@ -522,7 +522,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.contact.email}
                                                     onChange={(e) => handleChange(e, 'contact')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all hover:bg-white/10"
-                                                    placeholder="contact@restaurant.com"
+                                                    placeholder="contact@royaltandoor.in"
                                                 />
                                             </div>
                                             <div className="group">
@@ -533,7 +533,7 @@ const RestaurantOnboarding = () => {
                                                     value={formData.contact.whatsappNumber}
                                                     onChange={(e) => handleChange(e, 'contact')}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all hover:bg-white/10"
-                                                    placeholder="+1 (555) 000-0000"
+                                                    placeholder="+91 98765 43210"
                                                 />
                                             </div>
                                         </div>

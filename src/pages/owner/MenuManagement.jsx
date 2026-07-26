@@ -391,7 +391,7 @@ const MenuManagement = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                                 <div className="space-y-3">
                                                     <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Product Name</label>
-                                                    <input name="name" defaultValue={editingItem?.name} required className="input w-full bg-muted/40 border-2 border-transparent focus:border-primary/50 transition-all font-bold py-4 text-lg rounded-2xl" placeholder="e.g. Wagyu Beef Slider" />
+                                                    <input name="name" defaultValue={editingItem?.name} required className="input w-full bg-muted/40 border-2 border-transparent focus:border-primary/50 transition-all font-bold py-4 text-lg rounded-2xl" placeholder="e.g. Paneer Butter Masala" />
                                                 </div>
 
                                                 <div className="space-y-3">

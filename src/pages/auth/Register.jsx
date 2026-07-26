@@ -302,7 +302,7 @@ const Register = () => {
                                     type="text"
                                     name="name"
                                     className="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                    placeholder="Ali Khan"
+                                    placeholder="Meet Vaghela"
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
@@ -315,7 +315,7 @@ const Register = () => {
                                     type="email"
                                     name="email"
                                     className="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                                    placeholder="ali@royaltandoor.com"
+                                    placeholder="meet@curryhouse.in"
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
