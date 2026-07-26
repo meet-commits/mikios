@@ -7,13 +7,15 @@ import logger from './logger.js';
 class CacheService {
     constructor() {
         this.defaultTTL = 900; // 15 minutes default
-        this.isRedisAvailable = false;
-
-        // Check Redis availability
-        if (redisClient && redisClient.isOpen) {
-            this.isRedisAvailable = true;
-        }
     }
+
+    /**
+     * Check Redis availability dynamically
+     */
+    get isRedisAvailable() {
+        return Boolean(redisClient && (redisClient.isOpen || redisClient.isReady));
+    }
+
 
     /**
      * Get data from cache
