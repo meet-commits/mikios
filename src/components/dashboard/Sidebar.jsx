@@ -5,7 +5,7 @@ import {
     BarChart3, Star, LogOut, Bell, Calendar,
     MessageSquare, Settings, ChevronLeft, ChevronRight,
     UtensilsCrossed, Sparkles, Pin, PinOff, Users, QrCode,
-    DollarSign, Shield, Activity
+    DollarSign, Shield, Activity, Mail
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
