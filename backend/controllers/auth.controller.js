@@ -552,11 +552,13 @@ export const resendVerificationEmail = async (req, res, next) => {
 // @access  Public
 export const googleAuthCallback = async (req, res) => {
     try {
+        const user = req.user;
         const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://mikios.vercel.app';
 
         if (!user) {
             return res.redirect(`${frontendUrl}/login?error=auth_failed`);
         }
+
 
         // Generate tokens
         const token = generateToken(user._id);
