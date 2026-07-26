@@ -146,11 +146,17 @@ const sendViaBrevo = async (mailOptions) => {
 
 // Helper to determine which service to use
 const sendMail = async (options) => {
-    // If BREVO_API_KEY is defined, use Brevo (allows 300 free emails/day to ANY recipient without custom domain)
-    if (process.env.BREVO_API_KEY) {
+    const brevoKey = process.env.BREVO_API_KEY || '';
+    const resendKey = process.env.RESEND_API_KEY || '';
+
+    // Smart provider detection: If either key contains Brevo prefix (xkeysib- / eyJ / xsmtpsib-), use Brevo
+    if (brevoKey || resendKey.includes('xkeysib-') || resendKey.startsWith('eyJ') || resendKey.includes('xsmtpsib-')) {
+        if (!process.env.BREVO_API_KEY && resendKey) {
+            process.env.BREVO_API_KEY = resendKey;
+        }
         return await sendViaBrevo(options);
     }
-    // If RESEND_API_KEY is defined, use Resend
+
     if (process.env.RESEND_API_KEY) {
         return await sendViaResend(options);
     }
@@ -163,6 +169,7 @@ const sendMail = async (options) => {
         throw error;
     }
 };
+
 
 
 // Verify connection status (only for SMTP when EMAIL_USER is present)
