@@ -70,7 +70,18 @@ const userSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    activeSessions: [{
+        sessionId: { type: String, required: true },
+        refreshToken: { type: String },
+        ipAddress: { type: String },
+        device: { type: String },
+        browser: { type: String },
+        os: { type: String },
+        loginAt: { type: Date, default: Date.now },
+        lastActiveAt: { type: Date, default: Date.now },
+        isSuspended: { type: Boolean, default: false }
+    }]
 }, {
     timestamps: true
 });

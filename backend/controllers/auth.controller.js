@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import crypto from 'crypto';
 import logger from '../utils/logger.js';
 import { sendPasswordResetOTP, sendVerificationEmail, sendWelcomeEmail } from '../services/email.service.js';
+import { extractClientIp, parseUserAgent } from '../utils/deviceParser.js';
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -138,11 +139,33 @@ export const login = async (req, res, next) => {
         const token = generateToken(user._id);
         const refreshToken = generateRefreshToken(user._id);
 
-        // Save refresh token
+        // Record active device session and IP
+        const ipAddress = extractClientIp(req);
+        const uaInfo = parseUserAgent(req.headers['user-agent']);
+        const sessionId = crypto.randomBytes(16).toString('hex');
+
+        if (!user.activeSessions) user.activeSessions = [];
+        user.activeSessions.push({
+            sessionId,
+            refreshToken,
+            ipAddress,
+            device: uaInfo.device,
+            browser: uaInfo.browser,
+            os: uaInfo.os,
+            loginAt: new Date(),
+            lastActiveAt: new Date(),
+            isSuspended: false
+        });
+
+        // Limit active sessions kept per user to 10
+        if (user.activeSessions.length > 10) {
+            user.activeSessions = user.activeSessions.slice(-10);
+        }
+
         user.refreshToken = refreshToken;
         await user.save();
 
-        logger.info(`User logged in: ${user.email}`);
+        logger.info(`User logged in: ${user.email} from IP: ${ipAddress} (${uaInfo.device})`);
 
         res.status(200).json({
             success: true,
@@ -564,7 +587,29 @@ export const googleAuthCallback = async (req, res) => {
         const token = generateToken(user._id);
         const refreshToken = generateRefreshToken(user._id);
 
-        // Save refresh token
+        // Record active device session and IP
+        const ipAddress = extractClientIp(req);
+        const uaInfo = parseUserAgent(req.headers['user-agent']);
+        const sessionId = crypto.randomBytes(16).toString('hex');
+
+        if (!user.activeSessions) user.activeSessions = [];
+        user.activeSessions.push({
+            sessionId,
+            refreshToken,
+            ipAddress,
+            device: uaInfo.device,
+            browser: uaInfo.browser,
+            os: uaInfo.os,
+            loginAt: new Date(),
+            lastActiveAt: new Date(),
+            isSuspended: false
+        });
+
+        // Limit active sessions kept per user to 10
+        if (user.activeSessions.length > 10) {
+            user.activeSessions = user.activeSessions.slice(-10);
+        }
+
         user.refreshToken = refreshToken;
         await user.save();
 

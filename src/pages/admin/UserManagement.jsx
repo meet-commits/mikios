@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Users, Search, Filter, Shield, Edit3, Trash2, CheckCircle2, XCircle,
-    UserCheck, UserX, AlertTriangle, X, RefreshCw, Lock, CheckSquare, Square
+    UserCheck, UserX, AlertTriangle, X, RefreshCw, Lock, CheckSquare, Square,
+    Smartphone, Monitor, Globe, LogOut, Ban, Clock
 } from 'lucide-react';
 import api from '../../config/api';
 import toast from 'react-hot-toast';
@@ -32,10 +33,15 @@ const UserManagement = () => {
     const [roleFilter, setRoleFilter] = useState('ALL');
     const [statusFilter, setStatusFilter] = useState('all');
 
-    // Modal State
+    // Role & Permission Modal State
     const [editingUser, setEditingUser] = useState(null);
     const [newRole, setNewRole] = useState('');
     const [selectedPermissions, setSelectedPermissions] = useState([]);
+
+    // Device Session Modal State
+    const [sessionModalUser, setSessionModalUser] = useState(null);
+    const [userSessions, setUserSessions] = useState([]);
+    const [loadingSessions, setLoadingSessions] = useState(false);
 
     const fetchUsers = async () => {
         try {
@@ -68,6 +74,50 @@ const UserManagement = () => {
         setEditingUser(user);
         setNewRole(user.role);
         setSelectedPermissions(user.permissions || []);
+    };
+
+    const handleOpenSessionsModal = async (user) => {
+        setSessionModalUser(user);
+        setLoadingSessions(true);
+        try {
+            const res = await api.get(`/admin/users/${user._id}/sessions`);
+            if (res.data?.success) {
+                setUserSessions(res.data.data.sessions || []);
+            }
+        } catch (error) {
+            toast.error('Failed to load active device sessions');
+        } finally {
+            setLoadingSessions(false);
+        }
+    };
+
+    const handleLogoutSession = async (sessionId, all = false) => {
+        if (!sessionModalUser) return;
+        try {
+            const res = await api.post(`/admin/users/${sessionModalUser._id}/sessions/logout`, { sessionId, all });
+            if (res.data?.success) {
+                toast.success(all ? 'All device sessions revoked' : 'Device session revoked');
+                setUserSessions(res.data.data || []);
+            }
+        } catch (error) {
+            toast.error('Failed to revoke session');
+        }
+    };
+
+    const handleToggleSuspendSession = async (sessionId, currentSuspended) => {
+        if (!sessionModalUser) return;
+        try {
+            const res = await api.patch(`/admin/users/${sessionModalUser._id}/sessions/suspend`, {
+                sessionId,
+                isSuspended: !currentSuspended
+            });
+            if (res.data?.success) {
+                toast.success(res.data.message || 'Session updated');
+                setUserSessions(res.data.data || []);
+            }
+        } catch (error) {
+            toast.error('Failed to update device status');
+        }
     };
 
     const handleTogglePermission = (permKey) => {
@@ -147,14 +197,14 @@ const UserManagement = () => {
                     <div>
                         <div className="flex items-center gap-3">
                             <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                                User & Access Management
+                                User & Device Management
                             </h1>
                             <span className="px-3 py-1 text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full flex items-center gap-1.5">
-                                <Users className="w-3.5 h-3.5" /> ROLE & FEATURE MATRIX
+                                <Users className="w-3.5 h-3.5" /> ROLE & DEVICE CONTROL
                             </span>
                         </div>
                         <p className="text-muted-foreground text-sm mt-1">
-                            Manage user roles, grant or revoke granular feature permissions, and control access.
+                            Manage user roles, feature permissions, active IP sessions, and remote device logouts.
                         </p>
                     </div>
 
@@ -291,11 +341,18 @@ const UserManagement = () => {
                                             </td>
                                             <td className="py-4 px-6 text-right space-x-2">
                                                 <button
+                                                    onClick={() => handleOpenSessionsModal(u)}
+                                                    title="View Active Devices & IP Activity"
+                                                    className="px-3 py-1.5 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 text-xs font-semibold rounded-xl border border-purple-500/30 transition-colors inline-flex items-center gap-1.5"
+                                                >
+                                                    <Smartphone className="w-3.5 h-3.5" /> Devices
+                                                </button>
+                                                <button
                                                     onClick={() => handleOpenEditModal(u)}
                                                     title="Manage Role & Granular Permissions"
                                                     className="px-3 py-1.5 bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 text-xs font-semibold rounded-xl border border-blue-500/30 transition-colors inline-flex items-center gap-1.5"
                                                 >
-                                                    <Edit3 className="w-3.5 h-3.5" /> Manage Access
+                                                    <Edit3 className="w-3.5 h-3.5" /> Access
                                                 </button>
                                                 <button
                                                     onClick={() => handleToggleStatus(u)}
@@ -330,14 +387,13 @@ const UserManagement = () => {
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 className="bg-card border border-border/50 p-6 rounded-2xl max-w-2xl w-full shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto custom-scrollbar"
                             >
-                                {/* Modal Header */}
                                 <div className="flex justify-between items-center border-b border-border/40 pb-4">
                                     <div>
                                         <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
                                             <Shield className="w-5 h-5 text-amber-400" /> Manage Role & Access Matrix
                                         </h3>
                                         <p className="text-xs text-muted-foreground mt-0.5">
-                                            Configure system role and page/functionality permissions for <span className="text-foreground font-semibold">{editingUser.name} ({editingUser.email})</span>
+                                            Configure system role and permissions for <span className="text-foreground font-semibold">{editingUser.name} ({editingUser.email})</span>
                                         </p>
                                     </div>
                                     <button onClick={() => setEditingUser(null)} className="p-1 text-muted-foreground hover:text-foreground">
@@ -345,7 +401,6 @@ const UserManagement = () => {
                                     </button>
                                 </div>
 
-                                {/* Role Selector */}
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-foreground uppercase tracking-wider">System Role:</label>
                                     <select
@@ -361,7 +416,6 @@ const UserManagement = () => {
                                     </select>
                                 </div>
 
-                                {/* Granular Permissions Checkbox Matrix */}
                                 <div className="space-y-3 pt-2 border-t border-border/40">
                                     <div className="flex justify-between items-center">
                                         <div>
@@ -414,7 +468,6 @@ const UserManagement = () => {
                                     </div>
                                 </div>
 
-                                {/* Modal Actions */}
                                 <div className="flex justify-end gap-3 pt-4 border-t border-border/40">
                                     <button
                                         onClick={() => setEditingUser(null)}
@@ -427,6 +480,119 @@ const UserManagement = () => {
                                         className="px-6 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl shadow-lg hover:bg-primary/90"
                                     >
                                         Save Role & Access Matrix
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* Device Sessions & IP Activity Modal */}
+                <AnimatePresence>
+                    {sessionModalUser && (
+                        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                className="bg-card border border-border/50 p-6 rounded-2xl max-w-3xl w-full shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto custom-scrollbar"
+                            >
+                                <div className="flex justify-between items-center border-b border-border/40 pb-4">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+                                            <Smartphone className="w-5 h-5 text-purple-400" /> Active Devices & IP Activity Log
+                                        </h3>
+                                        <p className="text-xs text-muted-foreground mt-0.5">
+                                            Logged-in devices, IP addresses & remote session revocation for <span className="text-foreground font-semibold">{sessionModalUser.name} ({sessionModalUser.email})</span>
+                                        </p>
+                                    </div>
+                                    <button onClick={() => setSessionModalUser(null)} className="p-1 text-muted-foreground hover:text-foreground">
+                                        <X className="w-5 h-5" />
+                                    </button>
+                                </div>
+
+                                <div className="flex justify-between items-center bg-muted/20 p-3 rounded-xl border border-border/30">
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Globe className="w-4 h-4 text-purple-400" />
+                                        <span>Total Sessions Tracked: <strong className="text-foreground">{userSessions.length}</strong></span>
+                                    </div>
+                                    {userSessions.length > 0 && (
+                                        <button
+                                            onClick={() => handleLogoutSession(null, true)}
+                                            className="px-3 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs font-bold rounded-lg border border-red-500/30 transition-colors flex items-center gap-1.5"
+                                        >
+                                            <LogOut className="w-3.5 h-3.5" /> Logout All Devices
+                                        </button>
+                                    )}
+                                </div>
+
+                                {/* Sessions List */}
+                                <div className="space-y-3">
+                                    {loadingSessions ? (
+                                        <div className="py-12 text-center text-muted-foreground">Loading active sessions...</div>
+                                    ) : userSessions.length === 0 ? (
+                                        <div className="py-12 text-center text-muted-foreground space-y-2">
+                                            <Monitor className="w-8 h-8 mx-auto text-muted-foreground/40" />
+                                            <p>No active device sessions recorded for this user yet.</p>
+                                            <p className="text-xs text-muted-foreground/60">Device & IP logs are captured automatically on next login.</p>
+                                        </div>
+                                    ) : (
+                                        <div className="divide-y divide-border/30">
+                                            {userSessions.map((sess, idx) => (
+                                                <div key={sess.sessionId || idx} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-muted/20 px-3 rounded-xl transition-colors">
+                                                    <div className="space-y-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <Monitor className="w-4 h-4 text-blue-400" />
+                                                            <span className="text-sm font-bold text-foreground">{sess.device || 'Unknown Device'}</span>
+                                                            <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${
+                                                                sess.isSuspended
+                                                                    ? 'bg-red-500/10 text-red-400 border-red-500/30'
+                                                                    : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                                                            }`}>
+                                                                {sess.isSuspended ? 'SUSPENDED' : 'ACTIVE'}
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                                                            <span className="flex items-center gap-1">
+                                                                <Globe className="w-3.5 h-3.5 text-purple-400" /> IP: <strong className="text-foreground">{sess.ipAddress || '127.0.0.1'}</strong>
+                                                            </span>
+                                                            <span className="flex items-center gap-1">
+                                                                <Clock className="w-3.5 h-3.5" /> Login: {new Date(sess.loginAt).toLocaleDateString()} {new Date(sess.loginAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-2 shrink-0">
+                                                        <button
+                                                            onClick={() => handleToggleSuspendSession(sess.sessionId, sess.isSuspended)}
+                                                            className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-colors flex items-center gap-1.5 ${
+                                                                sess.isSuspended
+                                                                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/30'
+                                                                    : 'bg-amber-500/20 text-amber-300 border-amber-500/30 hover:bg-amber-500/30'
+                                                            }`}
+                                                        >
+                                                            <Ban className="w-3.5 h-3.5" />
+                                                            {sess.isSuspended ? 'Unsuspend' : 'Suspend Device'}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleLogoutSession(sess.sessionId)}
+                                                            className="px-3 py-1.5 bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs font-semibold rounded-xl border border-red-500/30 transition-colors flex items-center gap-1.5"
+                                                        >
+                                                            <LogOut className="w-3.5 h-3.5" /> Remote Logout
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex justify-end pt-4 border-t border-border/40">
+                                    <button
+                                        onClick={() => setSessionModalUser(null)}
+                                        className="px-4 py-2 bg-secondary text-foreground text-sm font-medium rounded-xl hover:bg-secondary/80"
+                                    >
+                                        Close
                                     </button>
                                 </div>
                             </motion.div>

@@ -499,3 +499,111 @@ export const getSystemActivities = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Get user active device sessions & IP activity
+// @route   GET /api/admin/users/:id/sessions
+// @access  Private (ADMIN)
+export const getUserSessions = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id).select('name email role activeSessions createdAt');
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: {
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                sessions: user.activeSessions || []
+            }
+        });
+    } catch (error) {
+        logger.error(`Admin getUserSessions error: ${error.message}`);
+        next(error);
+    }
+};
+
+// @desc    Logout specific device session or all sessions
+// @route   POST /api/admin/users/:id/sessions/logout
+// @access  Private (ADMIN)
+export const logoutUserSession = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { sessionId, all } = req.body;
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        if (all) {
+            user.activeSessions = [];
+            user.refreshToken = undefined;
+            logger.info(`Admin logged out all sessions for user ${user.email}`);
+        } else if (sessionId) {
+            user.activeSessions = user.activeSessions.filter(s => s.sessionId !== sessionId);
+            logger.info(`Admin logged out session ${sessionId} for user ${user.email}`);
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: all ? 'All sessions revoked successfully' : 'Session revoked successfully',
+            data: user.activeSessions
+        });
+    } catch (error) {
+        logger.error(`Admin logoutUserSession error: ${error.message}`);
+        next(error);
+    }
+};
+
+// @desc    Toggle suspend status of a device session
+// @route   PATCH /api/admin/users/:id/sessions/suspend
+// @access  Private (ADMIN)
+export const toggleSessionSuspend = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { sessionId, isSuspended } = req.body;
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        const session = user.activeSessions.find(s => s.sessionId === sessionId);
+        if (!session) {
+            return res.status(404).json({
+                success: false,
+                message: 'Device session not found'
+            });
+        }
+
+        session.isSuspended = typeof isSuspended === 'boolean' ? isSuspended : !session.isSuspended;
+        await user.save();
+
+        logger.info(`Admin toggled device session ${sessionId} suspend status to ${session.isSuspended} for user ${user.email}`);
+
+        res.status(200).json({
+            success: true,
+            message: `Device ${session.isSuspended ? 'suspended' : 'unsuspended'} successfully`,
+            data: user.activeSessions
+        });
+    } catch (error) {
+        logger.error(`Admin toggleSessionSuspend error: ${error.message}`);
+        next(error);
+    }
+};

@@ -8,7 +8,10 @@ import {
     getSubscriptions,
     manageSubscription,
     getPlatformStats,
-    getSystemActivities
+    getSystemActivities,
+    getUserSessions,
+    logoutUserSession,
+    toggleSessionSuspend
 } from '../controllers/admin.controller.js';
 import { protect, authorize } from '../middleware/auth.js';
 
@@ -22,6 +25,11 @@ router.use(authorize('ADMIN'));
 router.get('/users', getUsers);
 router.patch('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
+
+// Device Session & IP Activity Management
+router.get('/users/:id/sessions', getUserSessions);
+router.post('/users/:id/sessions/logout', logoutUserSession);
+router.patch('/users/:id/sessions/suspend', toggleSessionSuspend);
 
 // Restaurant Management
 router.get('/restaurants', getRestaurants);
