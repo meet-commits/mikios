@@ -201,16 +201,21 @@ export const sendVerificationEmail = async (email, token, userName) => {
         logger.info(`Verification email sent: ${info.messageId}`);
         return { success: true, messageId: info.messageId };
     } catch (error) {
-        logger.error(`Verification email error: ${error.message}`);
+        const errorMsg = error.response?.data?.message || error.message;
+        logger.error(`Verification email error: ${errorMsg}`);
+
+        if (error.response?.status === 403 || errorMsg.includes('testing emails')) {
+            logger.warn(`⚠️ [Resend Limit] To send emails to ${email}, verify a custom domain at resend.com/domains or test with meetzvaghela@gmail.com.`);
+        }
 
         if (process.env.NODE_ENV === 'development') {
-            logger.warn('⚠️  VERIFICATION EMAIL FAILED (Using Dev Fallback)');
+            logger.warn('⚠️ VERIFICATION EMAIL FAILED (Using Dev Fallback)');
             logger.warn(`📧 To: ${email}`);
-            logger.warn(`🔗 Link: ${process.env.CLIENT_URL}/verify-email?token=${token}`);
+            logger.warn(`🔗 Link: ${process.env.CLIENT_URL || 'https://mikios.vercel.app'}/verify-email?token=${token}`);
             return { success: true, messageId: 'dev-fallback' };
         }
 
-        throw error; // Throw the actual SMTP error instead of a generic string
+        throw error;
     }
 };
 
