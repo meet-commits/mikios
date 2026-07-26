@@ -64,6 +64,18 @@ const transporter = nodemailer.createTransport(
 const sendViaBrevo = async (mailOptions) => {
     try {
         let apiKey = process.env.BREVO_API_KEY ? process.env.BREVO_API_KEY.trim() : '';
+
+        // Auto-decode base64 string if user pasted the raw Brevo base64 export (starts with eyJ)
+        if (apiKey.startsWith('eyJ')) {
+            try {
+                const decodedStr = Buffer.from(apiKey, 'base64').toString('utf-8');
+                if (decodedStr.includes('xkeysib-')) {
+                    const parsed = JSON.parse(decodedStr);
+                    apiKey = parsed.api_key || apiKey;
+                }
+            } catch (e) {}
+        }
+
         if (apiKey.startsWith('{') && apiKey.includes('xkeysib-')) {
             try {
                 const parsed = JSON.parse(apiKey);
@@ -71,6 +83,7 @@ const sendViaBrevo = async (mailOptions) => {
             } catch (e) {}
         }
         apiKey = apiKey.replace(/^["']|["']$/g, '').trim();
+
 
         // If key is an SMTP key (starts with xsmtpsib-), use Brevo SMTP fallback
         if (apiKey.startsWith('xsmtpsib-')) {
