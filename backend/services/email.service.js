@@ -28,19 +28,35 @@ const sendViaResend = async (mailOptions) => {
 };
 
 // Original SMTP transporter for local/cloud fallback
-const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || 'gmail',
-    host: process.env.EMAIL_HOST || (process.env.EMAIL_SERVICE === 'gmail' ? 'smtp.gmail.com' : undefined),
-    port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT) : 465,
-    secure: process.env.EMAIL_SECURE ? process.env.EMAIL_SECURE === 'true' : true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 5000,
-    socketTimeout: 15000
-});
+const transporter = nodemailer.createTransport(
+    process.env.EMAIL_HOST
+        ? {
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT) : 587,
+            secure: process.env.EMAIL_SECURE === 'true',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 5000,
+            socketTimeout: 15000
+        }
+        : {
+            service: process.env.EMAIL_SERVICE || 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 5000,
+            socketTimeout: 15000
+        }
+);
+
 
 
 
