@@ -63,6 +63,15 @@ const transporter = nodemailer.createTransport(
 // Brevo (Sendinblue) client helper (300 free emails/day to ANY recipient without domain)
 const sendViaBrevo = async (mailOptions) => {
     try {
+        let apiKey = process.env.BREVO_API_KEY ? process.env.BREVO_API_KEY.trim() : '';
+        if (apiKey.startsWith('{') && apiKey.includes('xkeysib-')) {
+            try {
+                const parsed = JSON.parse(apiKey);
+                apiKey = parsed.api_key || apiKey;
+            } catch (e) {}
+        }
+        apiKey = apiKey.replace(/^["']|["']$/g, '').trim();
+
         const response = await axios.post('https://api.brevo.com/v3/smtp/email', {
             sender: {
                 name: 'mikiOS',
@@ -73,7 +82,7 @@ const sendViaBrevo = async (mailOptions) => {
             htmlContent: mailOptions.html
         }, {
             headers: {
-                'api-key': process.env.BREVO_API_KEY,
+                'api-key': apiKey,
                 'Content-Type': 'application/json'
             }
         });
@@ -83,6 +92,7 @@ const sendViaBrevo = async (mailOptions) => {
         throw error;
     }
 };
+
 
 // Helper to determine which service to use
 const sendMail = async (options) => {
