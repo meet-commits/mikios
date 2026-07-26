@@ -552,9 +552,10 @@ export const resendVerificationEmail = async (req, res, next) => {
 // @access  Public
 export const googleAuthCallback = async (req, res) => {
     try {
-        const user = req.user;
+        const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://mikios.vercel.app';
+
         if (!user) {
-            return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+            return res.redirect(`${frontendUrl}/login?error=auth_failed`);
         }
 
         // Generate tokens
@@ -575,16 +576,16 @@ export const googleAuthCallback = async (req, res) => {
         };
 
         // Redirect to frontend with tokens
-        // Note: In production, it's safer to use a temporary code or secure cookie
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
         const redirectUrl = `${frontendUrl}/login?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(JSON.stringify(userData))}`;
 
         res.redirect(redirectUrl);
     } catch (error) {
         logger.error(`Google Auth Callback Error: ${error.message}`);
-        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=server_error`);
+        const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://mikios.vercel.app';
+        res.redirect(`${frontendUrl}/login?error=server_error`);
     }
 };
+
 
 // @desc    Test email configuration
 // @route   GET /api/auth/test-email

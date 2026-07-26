@@ -52,7 +52,8 @@ router.get('/google/callback', (req, res, next) => {
         if (err) return next(err);
         if (!user) {
             const message = info?.message || 'Authentication failed';
-            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+            const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://mikios.vercel.app';
+
             // If email is not registered, take them to the REGISTER page as requested
             const targetPage = message === 'Email not registered' ? 'register' : 'login';
             return res.redirect(`${frontendUrl}/${targetPage}?error=${encodeURIComponent(message)}`);
