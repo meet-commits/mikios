@@ -94,7 +94,7 @@ export const ROICalculator = () => {
                                 <p className="text-sm font-bold uppercase tracking-[0.3em] text-background/60">Potential Monthly Growth</p>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-5xl sm:text-7xl font-black text-primary italic">
-                                        ${calculations.monthly.toLocaleString()}
+                                        ₹{calculations.monthly.toLocaleString()}
                                     </span>
                                     <span className="text-xl font-bold text-background/40">/mo</span>
                                 </div>
@@ -103,7 +103,7 @@ export const ROICalculator = () => {
                             <div className="grid grid-cols-2 gap-6">
                                 <div className="space-y-1">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-background/40">Yearly Revenue Lift</p>
-                                    <p className="text-2xl font-bold text-background italic">+${calculations.yearly.toLocaleString()}</p>
+                                    <p className="text-2xl font-bold text-background italic">+₹{calculations.yearly.toLocaleString()}</p>
                                 </div>
                                 <div className="space-y-1">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-background/40">Efficiency Boost</p>

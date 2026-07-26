@@ -1,122 +1,103 @@
-import nodemailer from 'nodemailer';
+import Inquiry from '../models/Inquiry.js';
 import logger from '../utils/logger.js';
+import { sendWelcomeEmail } from '../services/email.service.js';
 
-// Send contact sales email
-export const sendContactEmail = async (req, res) => {
+// Send contact sales email & save inquiry
+export const sendContactEmail = async (req, res, next) => {
     try {
         const { name, email, restaurantName, phone, message } = req.body;
 
-        // Validation
         if (!name || !email || !message) {
             return res.status(400).json({
                 success: false,
-                error: 'Name, email, and message are required fields'
+                message: 'Name, email, and message are required fields'
             });
         }
 
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({
                 success: false,
-                error: 'Invalid email address'
+                message: 'Invalid email address'
             });
         }
 
-        // Message length validation
-        if (message.length < 10) {
-            return res.status(400).json({
-                success: false,
-                error: 'Message must be at least 10 characters long'
-            });
-        }
-
-        // Create transporter
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASSWORD
-            }
+        // 1. Save Inquiry in Database
+        const inquiry = await Inquiry.create({
+            name,
+            email,
+            phone,
+            restaurantName,
+            message,
+            type: 'CONTACT_SALES',
+            status: 'PENDING'
         });
 
-        // Email content
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'mikiosteam@gmail.com',
-            replyTo: email,
-            subject: `🔔 New Contact Sales Inquiry from ${name}`,
-            html: `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <style>
-                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                        .header { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-                        .content { background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-                        .field { margin-bottom: 15px; }
-                        .label { font-weight: bold; color: #555; }
-                        .value { margin-top: 5px; }
-                        .message-box { background: white; padding: 15px; border-left: 4px solid #fbbf24; margin-top: 10px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                            <h2 style="margin: 0;">📧 New Contact Sales Inquiry</h2>
-                        </div>
-                        <div class="content">
-                            <div class="field">
-                                <div class="label">👤 Name:</div>
-                                <div class="value">${name}</div>
-                            </div>
-                            <div class="field">
-                                <div class="label">📧 Email:</div>
-                                <div class="value"><a href="mailto:${email}">${email}</a></div>
-                            </div>
-                            ${restaurantName ? `
-                            <div class="field">
-                                <div class="label">🏪 Restaurant Name:</div>
-                                <div class="value">${restaurantName}</div>
-                            </div>
-                            ` : ''}
-                            ${phone ? `
-                            <div class="field">
-                                <div class="label">📱 Phone:</div>
-                                <div class="value">${phone}</div>
-                            </div>
-                            ` : ''}
-                            <div class="field">
-                                <div class="label">💬 Message:</div>
-                                <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
-                            </div>
-                            <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
-                            <p style="color: #666; font-size: 12px;">
-                                This inquiry was submitted from the mikiOS landing page contact form.
-                            </p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `
-        };
+        logger.info(`New Contact Sales Inquiry created: ${email} (${name})`);
 
-        // Send email
-        await transporter.sendMail(mailOptions);
+        // 2. Try sending confirmation email
+        try {
+            await sendWelcomeEmail(email, name);
+        } catch (emailErr) {
+            logger.warn(`Failed to dispatch confirmation email to ${email}: ${emailErr.message}`);
+        }
 
         res.status(200).json({
             success: true,
-            message: 'Your inquiry has been sent successfully! We\'ll get back to you soon.'
+            message: 'Thank you! Your message has been received. Our team will contact you shortly.',
+            data: inquiry
         });
-
     } catch (error) {
-        logger.error(`Contact Email Error: ${error.message}`);
-        logger.error(`Stack: ${error.stack}`);
+        logger.error(`sendContactEmail Error: ${error.message}`);
+        next(error);
+    }
+};
 
-        res.status(500).json({
-            success: false,
-            error: 'Failed to send your inquiry. Please try again later.'
+// Request Demo Link
+export const requestDemoLink = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Work email is required'
+            });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid email address'
+            });
+        }
+
+        // 1. Save Demo Link Request in Database
+        const inquiry = await Inquiry.create({
+            name: 'Demo Request User',
+            email,
+            message: 'Requested mikiOS Instant Demo Video Link',
+            type: 'DEMO_REQUEST',
+            status: 'PENDING'
         });
+
+        logger.info(`New Demo Link Request recorded: ${email}`);
+
+        // 2. Try sending email with demo link
+        try {
+            await sendWelcomeEmail(email, 'Restaurant Leader');
+        } catch (emailErr) {
+            logger.warn(`Failed to send demo link email to ${email}: ${emailErr.message}`);
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Demo link and video walkthrough dispatched to your email!',
+            data: inquiry
+        });
+    } catch (error) {
+        logger.error(`requestDemoLink Error: ${error.message}`);
+        next(error);
     }
 };

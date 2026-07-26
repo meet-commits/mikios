@@ -65,6 +65,7 @@ const AdminUserManagement = lazy(() => import('./pages/admin/UserManagement'));
 const AdminSubscriptionManagement = lazy(() => import('./pages/admin/SubscriptionManagement'));
 const AdminRestaurantManagement = lazy(() => import('./pages/admin/RestaurantManagement'));
 const AdminSystemActivity = lazy(() => import('./pages/admin/SystemActivity'));
+const AdminContactInquiries = lazy(() => import('./pages/admin/ContactInquiries'));
 
 // --- Customer Pages (Lazy) ---
 const Menu = lazy(() => import('./pages/customer').then(m => ({ default: m.Menu })));
@@ -372,6 +373,14 @@ function App() {
                     element={
                       <ProtectedRoute roles={['ADMIN']}>
                         <AdminSystemActivity />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/inquiries"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <AdminContactInquiries />
                       </ProtectedRoute>
                     }
                   />

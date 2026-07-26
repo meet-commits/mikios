@@ -60,6 +60,7 @@ const Sidebar = ({ className, open, onClose }) => {
         { label: 'User Management', icon: Users, link: '/admin/users', permission: 'admin' },
         { label: 'Subscriptions & Plans', icon: Sparkles, link: '/admin/subscriptions', permission: 'admin' },
         { label: 'Platform Venues', icon: Store, link: '/admin/restaurants', permission: 'admin' },
+        { label: 'Contact Inquiries', icon: Mail, link: '/admin/inquiries', permission: 'admin' },
         { label: 'System Activities', icon: Activity, link: '/admin/activities', permission: 'admin' },
     ];
 

@@ -57,7 +57,7 @@ const menuItems = [
         category: "starters",
         name: "Paneer Tikka",
         description: "Marinated cottage cheese cubes grilled in tandoor",
-        price: 12.99,
+        price: 280,
         image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&auto=format&fit=crop",
         rating: 4.8,
         popular: true,
@@ -67,7 +67,7 @@ const menuItems = [
         category: "starters",
         name: "Vegetable Samosas",
         description: "Crispy pastry filled with spiced potatoes and peas (2 pcs)",
-        price: 6.50,
+        price: 120,
         image: "https://images.unsplash.com/photo-1601050690597-df056fb04791?w=500&auto=format&fit=crop",
         rating: 4.9,
         popular: true,
@@ -77,7 +77,7 @@ const menuItems = [
         category: "mains",
         name: "Chicken Biryani",
         description: "Fragrant basmati rice cooked with succulent chicken and spices",
-        price: 18.99,
+        price: 390,
         image: "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?w=500&auto=format&fit=crop",
         rating: 4.9,
         popular: true,
@@ -87,7 +87,7 @@ const menuItems = [
         category: "mains",
         name: "Butter Chicken",
         description: "Tender chicken in a rich, creamy tomato gravy",
-        price: 16.50,
+        price: 340,
         image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500&auto=format&fit=crop",
         rating: 4.7,
         popular: true,
@@ -97,7 +97,7 @@ const menuItems = [
         category: "mains",
         name: "Mutton Nihari",
         description: "Slow-cooked mutton stew with aromatic spices",
-        price: 21.99,
+        price: 450,
         image: "https://images.unsplash.com/photo-1545231027-63b6f2a3c59c?w=500&auto=format&fit=crop",
         rating: 5.0,
         popular: true,
@@ -108,8 +108,8 @@ export const DemoMenuSection = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [activeCategory, setActiveCategory] = useState("starters");
     const [cart, setCart] = useState([
-        { id: 1, name: "Paneer Tikka", price: 12.99, quantity: 2 },
-        { id: 3, name: "Chicken Biryani", price: 18.99, quantity: 1 }
+        { id: 1, name: "Paneer Tikka", price: 280, quantity: 2 },
+        { id: 3, name: "Chicken Biryani", price: 390, quantity: 1 }
     ]);
     const [orderStatus, setOrderStatus] = useState("browsing");
     const [paymentMethod, setPaymentMethod] = useState(null);
@@ -403,7 +403,7 @@ const MenuBrowseScreen = ({ activeCategory, setActiveCategory, filteredItems, me
                             </div>
                             <div className="flex items-center justify-between mt-1.5">
                                 <div className="flex items-center gap-2">
-                                    <span className="font-bold text-sm">£{item.price}</span>
+                                    <span className="font-bold text-sm">₹{item.price}</span>
                                     <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                                         <Star className="w-2.5 h-2.5 fill-primary text-primary" />
                                         {item.rating}
@@ -446,7 +446,7 @@ const CartScreen = ({ cart, totalPrice, onRemove, onAdd, onSend }) => (
                         <div className="flex-1 min-w-0 pr-4">
                             <p className="font-medium text-sm truncate">{item.name}</p>
                             <p className="text-xs text-muted-foreground">
-                                £{item.price} × {item.quantity}
+                                ₹{item.price} × {item.quantity}
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -468,7 +468,7 @@ const CartScreen = ({ cart, totalPrice, onRemove, onAdd, onSend }) => (
                                 </motion.button>
                             </div>
                             <span className="font-bold text-sm min-w-[50px] text-right">
-                                £{(item.price * item.quantity).toFixed(2)}
+                                ₹{(item.price * item.quantity).toFixed(0)}
                             </span>
                         </div>
                     </div>
@@ -479,15 +479,15 @@ const CartScreen = ({ cart, totalPrice, onRemove, onAdd, onSend }) => (
         <div className="bg-muted/50 rounded-xl p-3.5 mb-5 space-y-2">
             <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>£{totalPrice.toFixed(2)}</span>
+                <span>₹{totalPrice.toFixed(0)}</span>
             </div>
             <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Tax (10%)</span>
-                <span>£{(totalPrice * 0.1).toFixed(2)}</span>
+                <span className="text-muted-foreground">GST (5%)</span>
+                <span>₹{(totalPrice * 0.05).toFixed(0)}</span>
             </div>
             <div className="flex justify-between font-bold text-base pt-2 border-t border-border">
                 <span>Total</span>
-                <span>£{(totalPrice * 1.1).toFixed(2)}</span>
+                <span>₹{(totalPrice * 1.05).toFixed(0)}</span>
             </div>
         </div>
 
@@ -577,7 +577,7 @@ const PaymentScreen = ({ totalPrice, paymentMethod, setPaymentMethod }) => (
         <div className="bg-muted/50 rounded-xl p-3.5 mb-5">
             <div className="flex justify-between font-bold text-base">
                 <span>Total Amount</span>
-                <span className="text-primary">£{(totalPrice * 1.1).toFixed(2)}</span>
+                <span className="text-primary">₹{(totalPrice * 1.05).toFixed(0)}</span>
             </div>
         </div>
 

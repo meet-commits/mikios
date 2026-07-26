@@ -3,19 +3,28 @@ import { motion } from 'framer-motion';
 import { Mail, Sparkles, Send, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import api from '@/config/api';
+
 export const DemoSection = () => {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState('idle'); // idle, loading, success
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!email) return;
         setStatus('loading');
 
-        // Simulate API call
-        setTimeout(() => {
-            setStatus('success');
-            toast.success('Demo link sent to your email!');
-        }, 1500);
+        try {
+            const res = await api.post('/contact/demo', { email });
+            if (res.data?.success) {
+                setStatus('success');
+                toast.success(res.data.message || 'Demo link sent to your email!');
+            }
+        } catch (error) {
+            console.error('Demo request error:', error);
+            toast.error(error.response?.data?.message || 'Failed to send demo link. Please try again.');
+            setStatus('idle');
+        }
     };
 
     if (status === 'success') {

@@ -4,6 +4,7 @@ import Subscription from '../models/Subscription.js';
 import Order from '../models/Order.js';
 import MenuItem from '../models/MenuItem.js';
 import Table from '../models/Table.js';
+import Inquiry from '../models/Inquiry.js';
 import logger from '../utils/logger.js';
 
 // @desc    Get all users with search & filters
@@ -604,6 +605,79 @@ export const toggleSessionSuspend = async (req, res, next) => {
         });
     } catch (error) {
         logger.error(`Admin toggleSessionSuspend error: ${error.message}`);
+        next(error);
+    }
+};
+
+// @desc    Get all contact & demo link inquiries
+// @route   GET /api/admin/inquiries
+// @access  Private (ADMIN)
+export const getInquiries = async (req, res, next) => {
+    try {
+        const inquiries = await Inquiry.find({}).sort({ createdAt: -1 });
+        res.status(200).json({
+            success: true,
+            data: inquiries
+        });
+    } catch (error) {
+        logger.error(`Admin getInquiries error: ${error.message}`);
+        next(error);
+    }
+};
+
+// @desc    Update inquiry status or notes
+// @route   PATCH /api/admin/inquiries/:id
+// @access  Private (ADMIN)
+export const updateInquiryStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { status, notes } = req.body;
+
+        const inquiry = await Inquiry.findById(id);
+        if (!inquiry) {
+            return res.status(404).json({
+                success: false,
+                message: 'Inquiry not found'
+            });
+        }
+
+        if (status) inquiry.status = status;
+        if (notes !== undefined) inquiry.notes = notes;
+
+        await inquiry.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Inquiry updated successfully',
+            data: inquiry
+        });
+    } catch (error) {
+        logger.error(`Admin updateInquiryStatus error: ${error.message}`);
+        next(error);
+    }
+};
+
+// @desc    Delete inquiry
+// @route   DELETE /api/admin/inquiries/:id
+// @access  Private (ADMIN)
+export const deleteInquiry = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const inquiry = await Inquiry.findByIdAndDelete(id);
+
+        if (!inquiry) {
+            return res.status(404).json({
+                success: false,
+                message: 'Inquiry not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Inquiry deleted successfully'
+        });
+    } catch (error) {
+        logger.error(`Admin deleteInquiry error: ${error.message}`);
         next(error);
     }
 };

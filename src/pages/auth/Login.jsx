@@ -200,24 +200,53 @@ const Login = () => {
                             Join 89+ restaurants using mikiOS to <span className="text-primary font-semibold">streamline operations, improve guest experience, and simplify management</span> with effortless ordering.
                         </p>
 
-                        <div className="bg-background/10 backdrop-blur-md rounded-2xl p-6 border border-background/10">
-                            <div className="flex items-center gap-4 mb-4">
-                                <div className="w-12 h-12 rounded-full bg-background/20 flex items-center justify-center text-background font-semibold">
-                                    RK
+                        <div className="bg-background/10 backdrop-blur-xl rounded-3xl p-6 border border-background/15 space-y-5 shadow-2xl">
+                            {/* Header */}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 text-primary animate-pulse" />
+                                    <span className="text-xs font-black uppercase tracking-widest text-background">Chef AI Live Intelligence</span>
                                 </div>
-                                <div>
-                                    <p className="text-background font-semibold">Rajesh Kumar</p>
-                                    <p className="text-background/60 text-sm">Owner, The Curry House</p>
+                                <span className="px-2.5 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> LIVE SYSTEM
+                                </span>
+                            </div>
+
+                            {/* Metric Ticker */}
+                            <div className="grid grid-cols-3 gap-3 bg-background/10 p-3.5 rounded-2xl border border-background/10">
+                                <div className="text-center">
+                                    <p className="text-[10px] text-background/60 font-semibold uppercase">Prep Speed</p>
+                                    <p className="text-lg font-black text-primary italic">3.8m</p>
+                                </div>
+                                <div className="text-center border-x border-background/10">
+                                    <p className="text-[10px] text-background/60 font-semibold uppercase">Rev Lift</p>
+                                    <p className="text-lg font-black text-emerald-400 italic">+24%</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-[10px] text-background/60 font-semibold uppercase">Active QRs</p>
+                                    <p className="text-lg font-black text-purple-300 italic">1,420+</p>
                                 </div>
                             </div>
-                            <div className="flex gap-1 mb-3">
-                                {[1, 2, 3, 4, 5].map((_, i) => (
-                                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                                ))}
+
+                            {/* Dynamic AI Tip */}
+                            <div className="bg-background/15 p-4 rounded-2xl border border-background/10 space-y-2">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-xs font-bold text-primary flex items-center gap-1">
+                                        💡 Smart Upselling & Kitchen Speed
+                                    </span>
+                                </div>
+                                <p className="text-xs text-background/90 italic leading-relaxed">
+                                    "AI automatically pairs Butter Chicken with Garlic Naan & Lassi, boosting check size by ₹180 per table while reducing ordering friction."
+                                </p>
                             </div>
-                            <p className="text-background/80 italic">
-                                "Our revenue increased by 22% in the first month. The AI-powered upselling and digital menu are game-changers for my business!"
-                            </p>
+
+                            {/* Live Order Simulation Ticker */}
+                            <div className="flex items-center gap-3 text-xs bg-black/30 px-3.5 py-2.5 rounded-xl border border-white/10">
+                                <QrCode className="w-4 h-4 text-primary shrink-0" />
+                                <p className="text-background/80 truncate">
+                                    <strong className="text-background">Table #04:</strong> Ordered Paneer Tikka • Sent to KDS 👨‍🍳
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
                 </div>

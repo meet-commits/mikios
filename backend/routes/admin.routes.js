@@ -11,7 +11,10 @@ import {
     getSystemActivities,
     getUserSessions,
     logoutUserSession,
-    toggleSessionSuspend
+    toggleSessionSuspend,
+    getInquiries,
+    updateInquiryStatus,
+    deleteInquiry
 } from '../controllers/admin.controller.js';
 import { protect, authorize } from '../middleware/auth.js';
 
@@ -30,6 +33,11 @@ router.delete('/users/:id', deleteUser);
 router.get('/users/:id/sessions', getUserSessions);
 router.post('/users/:id/sessions/logout', logoutUserSession);
 router.patch('/users/:id/sessions/suspend', toggleSessionSuspend);
+
+// Contact & Demo Inquiries Management
+router.get('/inquiries', getInquiries);
+router.patch('/inquiries/:id', updateInquiryStatus);
+router.delete('/inquiries/:id', deleteInquiry);
 
 // Restaurant Management
 router.get('/restaurants', getRestaurants);
