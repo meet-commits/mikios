@@ -5,7 +5,7 @@ import {
     BarChart3, Star, LogOut, Bell, Calendar,
     MessageSquare, Settings, ChevronLeft, ChevronRight,
     UtensilsCrossed, Sparkles, Pin, PinOff, Users, QrCode,
-    DollarSign
+    DollarSign, Shield, Activity
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { cn } from '../../lib/utils';
@@ -55,10 +55,20 @@ const Sidebar = ({ className, open, onClose }) => {
         { label: 'Subscription', icon: Sparkles, link: '/subscription', permission: 'subscription' },
     ];
 
-    const menuItems = allMenuItems.filter(item => {
-        if (user?.role === 'OWNER' || user?.role === 'ADMIN') return true;
-        return user?.permissions?.includes(item.permission);
-    });
+    const adminMenuItems = [
+        { label: 'Super Overview', icon: Shield, link: '/admin/system-dashboard', permission: 'admin' },
+        { label: 'User Management', icon: Users, link: '/admin/users', permission: 'admin' },
+        { label: 'Subscriptions & Plans', icon: Sparkles, link: '/admin/subscriptions', permission: 'admin' },
+        { label: 'Platform Venues', icon: Store, link: '/admin/restaurants', permission: 'admin' },
+        { label: 'System Activities', icon: Activity, link: '/admin/activities', permission: 'admin' },
+    ];
+
+    const menuItems = user?.role === 'ADMIN'
+        ? [...adminMenuItems, ...allMenuItems]
+        : allMenuItems.filter(item => {
+            if (user?.role === 'OWNER') return true;
+            return user?.permissions?.includes(item.permission);
+        });
 
     const variants = {
         desktop: {
@@ -104,7 +114,7 @@ const Sidebar = ({ className, open, onClose }) => {
         >
             {/* Logo Section */}
             <div className="h-20 flex items-center px-6 relative justify-between">
-                <Link to={user?.role === 'OWNER' || user?.role === 'ADMIN' ? '/dashboard' : (user?.permissions?.includes('orders') ? '/orders' : '/dashboard')}>
+                <Link to={user?.role === 'ADMIN' ? '/admin/system-dashboard' : (user?.role === 'OWNER' ? '/dashboard' : (user?.permissions?.includes('orders') ? '/orders' : '/dashboard'))}>
                     <Logo iconOnly={collapsed && !isPinned} className={(collapsed && !isPinned) ? "w-10 h-10" : "w-auto"} />
                 </Link>
 

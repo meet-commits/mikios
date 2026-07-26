@@ -34,6 +34,7 @@ import inventoryRoutes from './routes/inventory.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import subscriptionRoutes from './routes/subscription.routes.js';
 import staffRoutes from './routes/staff.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 // Load environment variables
 logger.info('Starting server...');
@@ -143,6 +144,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/uploads', express.static('uploads'));
 

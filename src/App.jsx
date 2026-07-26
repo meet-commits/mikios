@@ -59,6 +59,13 @@ const StaffManagement = lazy(() => import('./pages/owner').then(m => ({ default:
 const Billing = lazy(() => import('./pages/owner/Billing'));
 const QRCodeManagement = lazy(() => import('./pages/owner/QRCodeManagement'));
 
+// --- Super Admin Pages (Lazy) ---
+const SuperAdminDashboard = lazy(() => import('./pages/admin/SuperAdminDashboard'));
+const AdminUserManagement = lazy(() => import('./pages/admin/UserManagement'));
+const AdminSubscriptionManagement = lazy(() => import('./pages/admin/SubscriptionManagement'));
+const AdminRestaurantManagement = lazy(() => import('./pages/admin/RestaurantManagement'));
+const AdminSystemActivity = lazy(() => import('./pages/admin/SystemActivity'));
+
 // --- Customer Pages (Lazy) ---
 const Menu = lazy(() => import('./pages/customer').then(m => ({ default: m.Menu })));
 const Cart = lazy(() => import('./pages/customer').then(m => ({ default: m.Cart })));
@@ -323,6 +330,48 @@ function App() {
                         <OwnerGuard>
                           <SubscriptionSuccess />
                         </OwnerGuard>
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* Super Admin Dedicated Control Center Routes */}
+                  <Route
+                    path="/admin/system-dashboard"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <SuperAdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/users"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <AdminUserManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/subscriptions"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <AdminSubscriptionManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/restaurants"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <AdminRestaurantManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/activities"
+                    element={
+                      <ProtectedRoute roles={['ADMIN']}>
+                        <AdminSystemActivity />
                       </ProtectedRoute>
                     }
                   />
