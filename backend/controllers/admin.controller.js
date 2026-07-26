@@ -239,17 +239,59 @@ export const toggleRestaurantStatus = async (req, res, next) => {
 // @access  Private (ADMIN)
 export const getSubscriptions = async (req, res, next) => {
     try {
-        const subscriptions = await Subscription.find({})
-            .populate({
-                path: 'restaurant',
-                select: 'name slug owner',
-                populate: { path: 'owner', select: 'name email' }
-            })
-            .sort({ updatedAt: -1 });
+        const restaurants = await Restaurant.find({})
+            .populate('owner', 'name email')
+            .sort({ createdAt: -1 });
+
+        const existingSubscriptions = await Subscription.find({});
+        const subMap = new Map();
+        existingSubscriptions.forEach(sub => {
+            if (sub.restaurant) {
+                subMap.set(sub.restaurant.toString(), sub);
+            }
+        });
+
+        const result = restaurants.map(rest => {
+            const existingSub = subMap.get(rest._id.toString());
+            if (existingSub) {
+                return {
+                    ...existingSub.toObject(),
+                    restaurant: {
+                        _id: rest._id,
+                        name: rest.name,
+                        slug: rest.slug,
+                        owner: rest.owner
+                    }
+                };
+            } else {
+                const now = new Date();
+                const defaultEnd = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+                return {
+                    _id: `temp-${rest._id}`,
+                    restaurant: {
+                        _id: rest._id,
+                        name: rest.name,
+                        slug: rest.slug,
+                        owner: rest.owner
+                    },
+                    plan: {
+                        name: 'FREE',
+                        displayName: 'Free Tier',
+                        price: 0,
+                        currency: 'INR',
+                        interval: 'month'
+                    },
+                    status: 'ACTIVE',
+                    currentPeriodStart: now,
+                    currentPeriodEnd: defaultEnd,
+                    isDefaultFree: true
+                };
+            }
+        });
 
         res.status(200).json({
             success: true,
-            data: subscriptions
+            data: result
         });
     } catch (error) {
         logger.error(`Admin getSubscriptions error: ${error.message}`);
@@ -262,7 +304,12 @@ export const getSubscriptions = async (req, res, next) => {
 // @access  Private (ADMIN)
 export const manageSubscription = async (req, res, next) => {
     try {
-        const { subscriptionId, restaurantId, action, daysToAdd, planName, status } = req.body;
+        let { subscriptionId, restaurantId, action, daysToAdd, planName, status } = req.body;
+
+        if (subscriptionId && typeof subscriptionId === 'string' && subscriptionId.startsWith('temp-')) {
+            restaurantId = subscriptionId.replace('temp-', '');
+            subscriptionId = null;
+        }
 
         let sub;
         if (subscriptionId) {
@@ -272,10 +319,9 @@ export const manageSubscription = async (req, res, next) => {
         }
 
         if (!sub && restaurantId) {
-            // Create subscription if not exists
             const startDate = new Date();
             const endDate = new Date();
-            endDate.setDate(endDate.getDate() + (daysToAdd || 30));
+            endDate.setDate(endDate.getDate() + (parseInt(daysToAdd) || 30));
 
             sub = new Subscription({
                 restaurant: restaurantId,
@@ -295,7 +341,7 @@ export const manageSubscription = async (req, res, next) => {
         if (!sub) {
             return res.status(404).json({
                 success: false,
-                message: 'Subscription record not found'
+                message: 'Subscription record or restaurant not found'
             });
         }
 

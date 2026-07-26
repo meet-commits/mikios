@@ -156,9 +156,9 @@ const SubscriptionManagement = () => {
                                                     >
                                                         Change Tier
                                                     </button>
-                                                    {sub.status === 'ACTIVE' ? (
+                                                     {sub.status === 'ACTIVE' ? (
                                                         <button
-                                                            onClick={() => handleManageSubscription({ subscriptionId: sub._id, action: 'suspend' })}
+                                                            onClick={() => handleManageSubscription({ subscriptionId: sub._id, restaurantId: sub.restaurant?._id, action: 'suspend' })}
                                                             className="px-2.5 py-1 bg-red-500/20 text-red-300 hover:bg-red-500/30 text-xs font-semibold rounded-lg border border-red-500/30 transition-colors"
                                                             title="Suspend Subscription"
                                                         >
@@ -166,7 +166,7 @@ const SubscriptionManagement = () => {
                                                         </button>
                                                     ) : (
                                                         <button
-                                                            onClick={() => handleManageSubscription({ subscriptionId: sub._id, action: 'activate' })}
+                                                            onClick={() => handleManageSubscription({ subscriptionId: sub._id, restaurantId: sub.restaurant?._id, action: 'activate' })}
                                                             className="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 text-xs font-semibold rounded-lg border border-emerald-500/30 transition-colors"
                                                             title="Activate Subscription"
                                                         >
@@ -244,6 +244,7 @@ const SubscriptionManagement = () => {
                                     <button
                                         onClick={() => handleManageSubscription({
                                             subscriptionId: selectedSub._id,
+                                            restaurantId: selectedSub.restaurant?._id,
                                             action: 'extend',
                                             daysToAdd
                                         })}
@@ -301,6 +302,7 @@ const SubscriptionManagement = () => {
                                     <button
                                         onClick={() => handleManageSubscription({
                                             subscriptionId: selectedSub._id,
+                                            restaurantId: selectedSub.restaurant?._id,
                                             action: 'changePlan',
                                             planName: targetPlan
                                         })}
