@@ -606,11 +606,13 @@ export const testEmail = async (req, res) => {
             result
         });
     } catch (error) {
-        logger.error(`Test Email Error: ${error.message}`);
+        const detail = error.response?.data || error.message;
+        logger.error(`Test Email Error: ${JSON.stringify(detail)}`);
         res.status(500).json({
             success: false,
             message: 'Test email failed',
-            error: error.message
+            error: detail
         });
     }
 };
+
