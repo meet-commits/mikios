@@ -2,11 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Users, Search, Filter, Shield, Edit3, Trash2, CheckCircle2, XCircle,
-    UserCheck, UserX, AlertTriangle, X, RefreshCw
+    UserCheck, UserX, AlertTriangle, X, RefreshCw, Lock, CheckSquare, Square
 } from 'lucide-react';
 import api from '../../config/api';
 import toast from 'react-hot-toast';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
+
+const AVAILABLE_PERMISSIONS = [
+    { key: 'dashboard', label: 'Overview Dashboard', desc: 'Main restaurant metrics & stats' },
+    { key: 'orders', label: 'Live Orders', desc: 'Take orders & manage kitchen status' },
+    { key: 'revenue', label: 'Billing & Payments', desc: 'Manual bills & payment processing' },
+    { key: 'menu', label: 'Menu Management', desc: 'Create & update dishes & prices' },
+    { key: 'tables', label: 'Table Management', desc: 'Manage dining tables & floorplan' },
+    { key: 'inventory', label: 'Inventory Engine', desc: 'Track stock & ingredient levels' },
+    { key: 'qr-codes', label: 'QR Management', desc: 'Table QR code generation' },
+    { key: 'analytics', label: 'Analytics', desc: 'Sales, revenue & performance analytics' },
+    { key: 'staff', label: 'Staff Management', desc: 'Manage chefs, waiters & floor staff' },
+    { key: 'reviews', label: 'Reviews & Feedback', desc: 'View diner ratings & reviews' },
+    { key: 'complaints', label: 'Customer Complaints', desc: 'View & resolve customer complaints' },
+    { key: 'service', label: 'Service Requests', desc: 'Live waiter call alerts' },
+    { key: 'settings', label: 'Restaurant Settings', desc: 'Update restaurant details & hours' },
+    { key: 'subscription', label: 'Subscription Plan', desc: 'View plan tier & billing status' },
+];
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -14,8 +31,11 @@ const UserManagement = () => {
     const [search, setSearch] = useState('');
     const [roleFilter, setRoleFilter] = useState('ALL');
     const [statusFilter, setStatusFilter] = useState('all');
+
+    // Modal State
     const [editingUser, setEditingUser] = useState(null);
     const [newRole, setNewRole] = useState('');
+    const [selectedPermissions, setSelectedPermissions] = useState([]);
 
     const fetchUsers = async () => {
         try {
@@ -44,6 +64,28 @@ const UserManagement = () => {
         return () => clearTimeout(timeout);
     }, [search, roleFilter, statusFilter]);
 
+    const handleOpenEditModal = (user) => {
+        setEditingUser(user);
+        setNewRole(user.role);
+        setSelectedPermissions(user.permissions || []);
+    };
+
+    const handleTogglePermission = (permKey) => {
+        setSelectedPermissions(prev =>
+            prev.includes(permKey)
+                ? prev.filter(k => k !== permKey)
+                : [...prev, permKey]
+        );
+    };
+
+    const handleSelectAllPermissions = () => {
+        setSelectedPermissions(AVAILABLE_PERMISSIONS.map(p => p.key));
+    };
+
+    const handleClearAllPermissions = () => {
+        setSelectedPermissions([]);
+    };
+
     const handleToggleStatus = async (user) => {
         try {
             const updatedStatus = !user.isActive;
@@ -57,17 +99,20 @@ const UserManagement = () => {
         }
     };
 
-    const handleRoleChange = async () => {
-        if (!editingUser || !newRole) return;
+    const handleSaveUserPermissions = async () => {
+        if (!editingUser) return;
         try {
-            const res = await api.patch(`/admin/users/${editingUser._id}`, { role: newRole });
+            const res = await api.patch(`/admin/users/${editingUser._id}`, {
+                role: newRole,
+                permissions: selectedPermissions
+            });
             if (res.data?.success) {
-                toast.success(`Updated ${editingUser.email} role to ${newRole}`);
+                toast.success(`Role & Permissions saved for ${editingUser.email}`);
                 setEditingUser(null);
                 fetchUsers();
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to update user role');
+            toast.error(error.response?.data?.message || 'Failed to update user permissions');
         }
     };
 
@@ -102,14 +147,14 @@ const UserManagement = () => {
                     <div>
                         <div className="flex items-center gap-3">
                             <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                                User Management
+                                User & Access Management
                             </h1>
                             <span className="px-3 py-1 text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full flex items-center gap-1.5">
-                                <Users className="w-3.5 h-3.5" /> SYSTEM ACCOUNTS
+                                <Users className="w-3.5 h-3.5" /> ROLE & FEATURE MATRIX
                             </span>
                         </div>
                         <p className="text-muted-foreground text-sm mt-1">
-                            Search, change roles, suspend, or manage platform user access.
+                            Manage user roles, grant or revoke granular feature permissions, and control access.
                         </p>
                     </div>
 
@@ -174,7 +219,7 @@ const UserManagement = () => {
                                 <tr>
                                     <th className="py-3.5 px-6">User</th>
                                     <th className="py-3.5 px-6">Role</th>
-                                    <th className="py-3.5 px-6">Associated Restaurant</th>
+                                    <th className="py-3.5 px-6">Feature Access Rights</th>
                                     <th className="py-3.5 px-6">Status</th>
                                     <th className="py-3.5 px-6">Registered</th>
                                     <th className="py-3.5 px-6 text-right">Actions</th>
@@ -207,11 +252,28 @@ const UserManagement = () => {
                                                     {u.role}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-6 text-xs text-muted-foreground">
-                                                {u.restaurant ? (
-                                                    <span className="text-foreground font-medium">{u.restaurant.name}</span>
+                                            <td className="py-4 px-6 text-xs">
+                                                {u.role === 'ADMIN' ? (
+                                                    <span className="text-amber-400 font-semibold flex items-center gap-1">
+                                                        <Shield className="w-3.5 h-3.5" /> Full Unrestricted System Access
+                                                    </span>
+                                                ) : u.role === 'OWNER' && (!u.permissions || u.permissions.length === 0) ? (
+                                                    <span className="text-blue-400 font-medium">Full Owner Workspace Rights</span>
+                                                ) : u.permissions && u.permissions.length > 0 ? (
+                                                    <div className="flex flex-wrap gap-1 max-w-xs">
+                                                        {u.permissions.slice(0, 4).map(p => (
+                                                            <span key={p} className="px-2 py-0.5 text-[10px] bg-secondary/80 text-foreground border border-border/50 rounded-md">
+                                                                {p}
+                                                            </span>
+                                                        ))}
+                                                        {u.permissions.length > 4 && (
+                                                            <span className="px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                                                +{u.permissions.length - 4} more
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 ) : (
-                                                    <span className="text-muted-foreground/60">N/A</span>
+                                                    <span className="text-muted-foreground/60">Default Role Permissions</span>
                                                 )}
                                             </td>
                                             <td className="py-4 px-6">
@@ -229,11 +291,11 @@ const UserManagement = () => {
                                             </td>
                                             <td className="py-4 px-6 text-right space-x-2">
                                                 <button
-                                                    onClick={() => { setEditingUser(u); setNewRole(u.role); }}
-                                                    title="Edit Role"
-                                                    className="p-1.5 hover:bg-secondary rounded-lg text-blue-400 transition-colors"
+                                                    onClick={() => handleOpenEditModal(u)}
+                                                    title="Manage Role & Granular Permissions"
+                                                    className="px-3 py-1.5 bg-blue-500/20 text-blue-300 hover:bg-blue-500/30 text-xs font-semibold rounded-xl border border-blue-500/30 transition-colors inline-flex items-center gap-1.5"
                                                 >
-                                                    <Edit3 className="w-4 h-4" />
+                                                    <Edit3 className="w-3.5 h-3.5" /> Manage Access
                                                 </button>
                                                 <button
                                                     onClick={() => handleToggleStatus(u)}
@@ -258,46 +320,102 @@ const UserManagement = () => {
                     </div>
                 </div>
 
-                {/* Edit Role Modal */}
+                {/* Edit Role & Granular Permissions Matrix Modal */}
                 <AnimatePresence>
                     {editingUser && (
-                        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                        <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="bg-card border border-border/50 p-6 rounded-2xl max-w-md w-full shadow-2xl space-y-5"
+                                className="bg-card border border-border/50 p-6 rounded-2xl max-w-2xl w-full shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto custom-scrollbar"
                             >
+                                {/* Modal Header */}
                                 <div className="flex justify-between items-center border-b border-border/40 pb-4">
-                                    <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-                                        <Shield className="w-5 h-5 text-amber-400" /> Change User Role
-                                    </h3>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+                                            <Shield className="w-5 h-5 text-amber-400" /> Manage Role & Access Matrix
+                                        </h3>
+                                        <p className="text-xs text-muted-foreground mt-0.5">
+                                            Configure system role and page/functionality permissions for <span className="text-foreground font-semibold">{editingUser.name} ({editingUser.email})</span>
+                                        </p>
+                                    </div>
                                     <button onClick={() => setEditingUser(null)} className="p-1 text-muted-foreground hover:text-foreground">
                                         <X className="w-5 h-5" />
                                     </button>
                                 </div>
 
-                                <div>
-                                    <p className="text-xs text-muted-foreground">Target User:</p>
-                                    <p className="text-sm font-semibold text-foreground">{editingUser.name} ({editingUser.email})</p>
-                                </div>
-
+                                {/* Role Selector */}
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-muted-foreground">Select New Role:</label>
+                                    <label className="text-xs font-bold text-foreground uppercase tracking-wider">System Role:</label>
                                     <select
                                         value={newRole}
                                         onChange={(e) => setNewRole(e.target.value)}
-                                        className="w-full px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-medium focus:outline-none focus:border-primary"
+                                        className="w-full px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-semibold focus:outline-none focus:border-primary"
                                     >
-                                        <option value="ADMIN">ADMIN (Super Admin)</option>
+                                        <option value="ADMIN">ADMIN (Super Administrator - Full Unrestricted Bypass)</option>
                                         <option value="OWNER">OWNER (Restaurant Manager)</option>
-                                        <option value="CHEF">CHEF (Kitchen Staff)</option>
-                                        <option value="WAITER">WAITER (Floor Staff)</option>
-                                        <option value="CUSTOMER">CUSTOMER (End Diner)</option>
+                                        <option value="CHEF">CHEF (Kitchen Operations)</option>
+                                        <option value="WAITER">WAITER (Floor Service Staff)</option>
+                                        <option value="CUSTOMER">CUSTOMER (End User Diner)</option>
                                     </select>
                                 </div>
 
-                                <div className="flex justify-end gap-3 pt-3">
+                                {/* Granular Permissions Checkbox Matrix */}
+                                <div className="space-y-3 pt-2 border-t border-border/40">
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
+                                                <Lock className="w-4 h-4 text-blue-400" /> Granular Page & Feature Permissions
+                                            </h4>
+                                            <p className="text-xs text-muted-foreground">Select which pages and tools this user can see and interact with.</p>
+                                        </div>
+                                        <div className="flex gap-2 text-xs">
+                                            <button
+                                                type="button"
+                                                onClick={handleSelectAllPermissions}
+                                                className="px-2.5 py-1 bg-secondary hover:bg-secondary/80 text-foreground font-semibold rounded-lg border border-border/50"
+                                            >
+                                                Select All
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={handleClearAllPermissions}
+                                                className="px-2.5 py-1 bg-secondary hover:bg-secondary/80 text-muted-foreground font-semibold rounded-lg border border-border/50"
+                                            >
+                                                Clear All
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                        {AVAILABLE_PERMISSIONS.map((perm) => {
+                                            const isChecked = selectedPermissions.includes(perm.key);
+                                            return (
+                                                <div
+                                                    key={perm.key}
+                                                    onClick={() => handleTogglePermission(perm.key)}
+                                                    className={`p-3 rounded-xl border transition-all cursor-pointer flex items-start gap-3 ${
+                                                        isChecked
+                                                            ? 'bg-primary/10 border-primary/40 text-foreground'
+                                                            : 'bg-background/40 border-border/40 text-muted-foreground hover:bg-muted/30'
+                                                    }`}
+                                                >
+                                                    <div className="mt-0.5 text-primary">
+                                                        {isChecked ? <CheckSquare className="w-4 h-4 text-primary" /> : <Square className="w-4 h-4 text-muted-foreground" />}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <p className="text-xs font-bold leading-tight text-foreground">{perm.label}</p>
+                                                        <p className="text-[11px] text-muted-foreground mt-0.5">{perm.desc}</p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Modal Actions */}
+                                <div className="flex justify-end gap-3 pt-4 border-t border-border/40">
                                     <button
                                         onClick={() => setEditingUser(null)}
                                         className="px-4 py-2 bg-secondary text-muted-foreground text-sm font-medium rounded-xl hover:text-foreground"
@@ -305,10 +423,10 @@ const UserManagement = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        onClick={handleRoleChange}
-                                        className="px-5 py-2 bg-primary text-primary-foreground text-sm font-semibold rounded-xl shadow-lg hover:bg-primary/90"
+                                        onClick={handleSaveUserPermissions}
+                                        className="px-6 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl shadow-lg hover:bg-primary/90"
                                     >
-                                        Save Role
+                                        Save Role & Access Matrix
                                     </button>
                                 </div>
                             </motion.div>

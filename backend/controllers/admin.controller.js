@@ -67,7 +67,7 @@ export const getUsers = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { role, isActive, emailVerified } = req.body;
+        const { role, isActive, emailVerified, permissions } = req.body;
 
         const user = await User.findById(id);
         if (!user) {
@@ -88,10 +88,11 @@ export const updateUser = async (req, res, next) => {
         if (role) user.role = role;
         if (typeof isActive === 'boolean') user.isActive = isActive;
         if (typeof emailVerified === 'boolean') user.emailVerified = emailVerified;
+        if (Array.isArray(permissions)) user.permissions = permissions;
 
         await user.save();
 
-        logger.info(`Admin updated user ${user.email}: Role=${user.role}, Active=${user.isActive}`);
+        logger.info(`Admin updated user ${user.email}: Role=${user.role}, Active=${user.isActive}, Permissions=${user.permissions?.join(',')}`);
 
         res.status(200).json({
             success: true,
