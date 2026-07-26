@@ -72,10 +72,18 @@ const sendViaBrevo = async (mailOptions) => {
         }
         apiKey = apiKey.replace(/^["']|["']$/g, '').trim();
 
+        // Extract valid sender email address (avoid using SMTP username like b358f5001@smtp-brevo.com)
+        const rawFrom = process.env.EMAIL_FROM || '';
+        const match = rawFrom.match(/<([^>]+)>/);
+        let senderEmail = match ? match[1] : (process.env.EMAIL_USER || 'meetzvaghela@gmail.com');
+        if (!senderEmail.includes('@') || senderEmail.includes('smtp-brevo.com')) {
+            senderEmail = 'meetzvaghela@gmail.com';
+        }
+
         const response = await axios.post('https://api.brevo.com/v3/smtp/email', {
             sender: {
                 name: 'mikiOS',
-                email: process.env.EMAIL_USER || 'meetzvaghela@gmail.com'
+                email: senderEmail
             },
             to: [{ email: mailOptions.to }],
             subject: mailOptions.subject,
@@ -92,6 +100,7 @@ const sendViaBrevo = async (mailOptions) => {
         throw error;
     }
 };
+
 
 
 // Helper to determine which service to use
