@@ -72,6 +72,31 @@ const sendViaBrevo = async (mailOptions) => {
         }
         apiKey = apiKey.replace(/^["']|["']$/g, '').trim();
 
+        // If key is an SMTP key (starts with xsmtpsib-), use Brevo SMTP fallback
+        if (apiKey.startsWith('xsmtpsib-')) {
+            logger.info('[Email] Brevo SMTP key detected. Sending via Brevo SMTP relay...');
+            const smtpTransporter = nodemailer.createTransport({
+                host: 'smtp-relay.brevo.com',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.EMAIL_USER && process.env.EMAIL_USER.includes('@') ? process.env.EMAIL_USER : 'b358f5001@smtp-brevo.com',
+                    pass: apiKey
+                },
+                connectionTimeout: 10000,
+                greetingTimeout: 5000,
+                socketTimeout: 15000
+            });
+            const rawFrom = process.env.EMAIL_FROM || 'miki <meetzvaghela@gmail.com>';
+            const info = await smtpTransporter.sendMail({
+                from: rawFrom,
+                to: mailOptions.to,
+                subject: mailOptions.subject,
+                html: mailOptions.html
+            });
+            return { success: true, messageId: info.messageId };
+        }
+
         // Extract valid sender email address (avoid using SMTP username like b358f5001@smtp-brevo.com)
         const rawFrom = process.env.EMAIL_FROM || '';
         const match = rawFrom.match(/<([^>]+)>/);
@@ -101,6 +126,7 @@ const sendViaBrevo = async (mailOptions) => {
         throw new Error(`Brevo error: ${payload}`);
     }
 };
+
 
 
 
