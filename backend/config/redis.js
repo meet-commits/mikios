@@ -8,7 +8,7 @@ const connectRedis = async () => {
 
     // Skip Redis connection if not configured, disabled, or set to localhost in production
     if (!redisUrl || redisUrl === 'disabled' || (process.env.NODE_ENV === 'production' && redisUrl.includes('localhost'))) {
-        logger.info('ℹ️ Redis not configured for production. Running without Redis cache.');
+        logger.warn('⚠️ REDIS_URL not set or not configured for production. Skipping Redis connection.');
         return;
     }
 
@@ -31,7 +31,6 @@ const connectRedis = async () => {
             logger.debug(`Redis connection notice: ${err.message || err}`);
         });
 
-
         redisClient.on('connect', () => {
             logger.info('🚀 Redis Client Connected');
         });
@@ -44,4 +43,3 @@ const connectRedis = async () => {
 };
 
 export { redisClient, connectRedis };
-
